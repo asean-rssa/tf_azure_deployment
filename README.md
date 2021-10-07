@@ -1,2 +1,2 @@
 # tf_azure_deployment
-Azure Deployments using Terraform
+A collection of experiments, use Terraform to deploy Azure Databricks and other Azure resources.
