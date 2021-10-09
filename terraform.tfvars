@@ -1,2 +1,2 @@
-location  = "westus2"
-namespace = "ballroominaction"
+location  = "southeastasia"
+namespace = "adb-workshop-test-rg"

@@ -3,7 +3,12 @@ variable "location" {
   default = "westus2"
 }
 
+variable "no_public_ip" {
+  type    = bool
+  default = true
+}
+
 variable "namespace" {
   type    = string
-  default = "ballroominaction"
+  default = "meaningless_name"
 }
