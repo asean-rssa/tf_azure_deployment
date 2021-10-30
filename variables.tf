@@ -7,3 +7,7 @@ variable "spokecidr" {
   type    = string
   default = "10.179.0.0/18"
 }
+
+variable "no_public_ip" {
+  default = true
+}

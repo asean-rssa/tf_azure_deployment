@@ -46,6 +46,27 @@ resource "azurerm_firewall_network_rule_collection" "adbfnetwork" {
       "TCP",
     ]
   }
+
+  rule {
+    name = "databricks-metastore"
+
+    source_addresses = [
+      join(", ", azurerm_subnet.public.address_prefixes),
+      join(", ", azurerm_subnet.private.address_prefixes),
+    ]
+
+    destination_ports = [
+      "3306",
+    ]
+
+    destination_addresses = [
+      "40.78.233.2",
+    ]
+
+    protocols = [
+      "TCP",
+    ]
+  }
 }
 
 
@@ -90,7 +111,7 @@ resource "azurerm_route_table" "example" {
     name                   = "to-firewall"
     address_prefix         = "0.0.0.0/0"
     next_hop_type          = "VirtualAppliance"
-    next_hop_in_ip_address = azurerm_public_ip.fwpublicip.ip_address
+    next_hop_in_ip_address = azurerm_firewall.hubfw.ip_configuration.0.private_ip_address // extract single item
   }
 }
 
