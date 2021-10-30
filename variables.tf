@@ -1,14 +1,9 @@
-variable "location" {
+variable "hubcidr" {
   type    = string
-  default = "westus2"
+  default = "10.178.0.0/20"
 }
 
-variable "no_public_ip" {
-  type    = bool
-  default = true
-}
-
-variable "namespace" {
+variable "spokecidr" {
   type    = string
-  default = "meaningless_name"
+  default = "10.179.0.0/18"
 }

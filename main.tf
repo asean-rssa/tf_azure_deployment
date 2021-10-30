@@ -1,55 +1,67 @@
-// terraform detailed versions of providers
-terraform {
-  required_providers {
-    databricks = {
-      source  = "databrickslabs/databricks"
-      version = "0.2.5"
-    }
-    azurerm = {
-      version = "~>2.0"
-    }
+/**
+ * Azure Databricks workspace in custom VNet
+ *
+ * Module creates:
+ * * Resource group with random prefix
+ * * Tags, including `Owner`, which is taken from `az account show --query user`
+ * * VNet with public and private subnet
+ * * Databricks workspace
+ */
+provider "azurerm" {
+  features {}
+}
+
+provider "random" {
+}
+
+resource "random_string" "naming" {
+  special = false
+  upper   = false
+  length  = 6
+}
+
+data "azurerm_client_config" "current" {
+}
+
+data "external" "me" {
+  program = ["az", "account", "show", "--query", "user"]
+}
+
+locals {
+  // dltp - databricks labs terraform provider
+  prefix   = "dltp${random_string.naming.result}"
+  location = "southeastasia"
+  cidr     = var.spokecidr
+  // tags that are propagated down to all resources
+  tags = {
+    Environment = "Testing"
+    Owner       = lookup(data.external.me.result, "name")
+    Epoch       = random_string.naming.result
   }
 }
 
 resource "azurerm_resource_group" "this" {
-  name     = local.rand_namespace
-  location = var.location
+  name     = "hwang-${local.prefix}-rg"
+  location = local.location
+  tags     = local.tags
 }
 
-resource "random_string" "rand_rg_name" {
-  length  = 4
-  special = false
-  upper   = false
+output "arm_client_id" {
+  value = data.azurerm_client_config.current.client_id
 }
 
-resource "random_string" "adbrand" {
-  special = false
-  upper   = false
-  length  = 5
+output "arm_subscription_id" {
+  value = data.azurerm_client_config.current.subscription_id
 }
 
-# local variables
-locals {
-  rand_namespace = join("-", [var.namespace, random_string.rand_rg_name.result])
-  prefix         = "workshop-${random_string.adbrand.result}"
-  location       = var.location
-  // tags that are propagated down to all resources
-  tags = {
-    Environment = "Testing"
-    Epoch       = random_string.adbrand.result
-  }
+output "arm_tenant_id" {
+  value = data.azurerm_client_config.current.tenant_id
 }
 
-resource "azurerm_databricks_workspace" "this" {
-  sku                         = "premium"
-  name                        = "${local.prefix}-workspace"
-  managed_resource_group_name = "${local.prefix}-workspace-rg"
-  resource_group_name         = azurerm_resource_group.this.name
-  location                    = azurerm_resource_group.this.location
+output "azure_region" {
+  value = local.location
+}
 
-  custom_parameters {
-    no_public_ip = var.no_public_ip
-  }
-
-  tags = local.tags
+output "test_resource_group" {
+  value = azurerm_resource_group.this.name
 }
