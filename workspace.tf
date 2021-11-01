@@ -6,7 +6,7 @@ resource "azurerm_databricks_workspace" "this" {
   tags                                  = local.tags
   public_network_access_enabled         = false                    //use private endpoint
   network_security_group_rules_required = "NoAzureDatabricksRules" //use private endpoint
-  //customer_managed_key_enabled = true
+  customer_managed_key_enabled          = true
   //infrastructure_encryption_enabled = true
   custom_parameters {
     no_public_ip                                         = var.no_public_ip
@@ -15,6 +15,7 @@ resource "azurerm_databricks_workspace" "this" {
     public_subnet_name                                   = azurerm_subnet.private.name
     public_subnet_network_security_group_association_id  = azurerm_subnet_network_security_group_association.public.id
     private_subnet_network_security_group_association_id = azurerm_subnet_network_security_group_association.private.id
+    storage_account_name                                 = local.dbfsname
   }
   # We need this, otherwise destroy doesn't cleanup things correctly
   depends_on = [
