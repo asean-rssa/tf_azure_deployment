@@ -47,3 +47,19 @@ resource "azurerm_private_dns_cname_record" "example" { //add CNAME record to th
   ttl                 = 60
   record              = azurerm_databricks_workspace.this.workspace_url
 }
+
+//dbfs pvt endpoint
+resource "azurerm_private_endpoint" "dbfspe" {
+  name                = "dbfspvtendpoint"
+  location            = azurerm_resource_group.this.location
+  resource_group_name = azurerm_resource_group.this.name
+  subnet_id           = azurerm_subnet.plsubnet.id //private link subnet, in databricks spoke vnet
+
+
+  private_service_connection {
+    name                           = "ple-${var.workspace_prefix}-dbfs"
+    private_connection_resource_id = join("", [azurerm_databricks_workspace.this.managed_resource_group_id, "/providers/Microsoft.Storage/storageAccounts/${local.dbfsname}"])
+    is_manual_connection           = false
+    subresource_names              = ["blob"]
+  }
+}
