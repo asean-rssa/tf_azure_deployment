@@ -1,4 +1,15 @@
-Azure Databricks workspace in custom VNet
+## Automated process to create Azure Databricks Workspace with data exfiltration protection.
+
+Include:
+1. Hub-Spoke networking with egress firewall to control all outbound traffic.
+2. Private Link connection for backend traffic from data plane to control plane.
+3. Private Link connection from user client to webapp service.
+4. Private Link connection from data plane to dbfs storage.
+5. (To Be Implemented) External Hive Metastore in your own subscription, with private endpoint connection.
+
+Overall Architecture:
+![alt text](https://github.com/hwang-db/tf_azure_deployment/blob/issue1/charts/Architecture.jpg?raw=true)
+
 
 Module creates:
 * Resource group with random prefix
