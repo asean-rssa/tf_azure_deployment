@@ -8,7 +8,7 @@ Include:
 5. (To Be Implemented) External Hive Metastore in your own subscription, with private endpoint connection.
 
 Overall Architecture:
-![alt text](https://github.com/hwang-db/tf_azure_deployment/blob/issue1/charts/Architecture.jpg?raw=true)
+![alt text](./charts/Architecture.png?raw=true)
 
 
 Module creates:
