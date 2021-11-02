@@ -1,7 +1,7 @@
-## Automated process to create Azure Databricks Workspace with data exfiltration protection.
+## Automated process to deploy Azure Databricks Workspace with data exfiltration protection.
 
 Include:
-1. Hub-Spoke networking with egress firewall to control all outbound traffic.
+1. Hub-Spoke networking with egress firewall to control all outbound traffic, e.g. to pypi.org.
 2. Private Link connection for backend traffic from data plane to control plane.
 3. Private Link connection from user client to webapp service.
 4. Private Link connection from data plane to dbfs storage.
@@ -10,20 +10,27 @@ Include:
 Overall Architecture:
 ![alt text](./charts/Architecture.png?raw=true)
 
+Warning: To use this deployment, you need to obtain access to private link feature (as of 2021.11 in private preview. Contact Databricks or Microsoft team for more details.
 
-Module creates:
+With this deployment, traffic from user client to webapp (notebook UI), backend traffic from data plane to control plane will be through private endpoints. This terraform sample will create:
 * Resource group with random prefix
 * Tags, including `Owner`, which is taken from `az account show --query user`
-* VNet with public and private subnet
-* Databricks workspace
+* VNet with public and private subnet and subnet to host private endpoints
+* Databricks workspace with private link to control plane, user to webapp and private link to dbfs
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| cidr | n/a | `any` | n/a | yes |
-| no\_public\_ip | n/a | `bool` | `false` | no |
-| private\_subnet\_endpoints | n/a | `list` | `[]` | no |
+| hubcidr | n/a | `string` | "10.178.0.0/20" | yes |
+| spokecidr | n/a | `string` | "10.179.0.0/20" | yes |
+| no\_public\_ip | n/a | `bool` | `true` | yes |
+| rglocation | n/a | `string` | "southeastasia" | yes |
+| metastoreip | n/a | `string` | "40.78.233.2" | yes |
+| dbfs_prefix | n/a | `string` | "dbfs" | yes |
+| workspace_prefix | n/a | `string` | "adb" | yes |
+| firewallfqdn | n/a | list(`any`) | fqdn rules | yes |
+
 
 ## Outputs
 
@@ -34,6 +41,11 @@ Module creates:
 | arm\_tenant\_id | n/a |
 | azure\_region | n/a |
 | databricks\_azure\_workspace\_resource\_id | n/a |
-| test\_resource\_group | n/a |
+| resource\_group | n/a |
 | workspace\_url | n/a |
 
+
+## Getting Started
+1. Clone this repo to your local machine.
+2. Run `terraform init` to initialize terraform.
+3. Inside the local project folder, run `terraform apply` to create the resources.

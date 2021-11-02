@@ -64,6 +64,6 @@ output "azure_region" {
   value = local.location
 }
 
-output "test_resource_group" {
+output "resource_group" {
   value = azurerm_resource_group.this.name
 }
