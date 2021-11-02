@@ -39,7 +39,7 @@ resource "azurerm_firewall_network_rule_collection" "adbfnetwork" {
     ]
 
     destination_addresses = [
-      "40.78.233.2",
+      var.metastoreip,
     ]
 
     protocols = [

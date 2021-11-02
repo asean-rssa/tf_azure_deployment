@@ -17,6 +17,10 @@ variable "rglocation" {
   default = "southeastasia"
 }
 
+variable "metastoreip" {
+  type = string
+  default = "40.78.233.2"
+}
 variable "dbfs_prefix" {
   type    = string
   default = "dbfs"
