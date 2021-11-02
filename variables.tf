@@ -9,6 +9,7 @@ variable "spokecidr" {
 }
 
 variable "no_public_ip" {
+  type    = bool
   default = true
 }
 
@@ -19,7 +20,6 @@ variable "rglocation" {
 
 variable "metastoreip" {
   type = string
-  default = "40.78.233.2"
 }
 variable "dbfs_prefix" {
   type    = string
@@ -33,11 +33,4 @@ variable "workspace_prefix" {
 
 variable "firewallfqdn" {
   type = list(any)
-  default = [                                                           // we don't need scc relay and dbfs fqdn since they will go to private endpoint
-    "dbartifactsprodseap.blob.core.windows.net",                        //databricks artifacts
-    "dbartifactsprodeap.blob.core.windows.net",                         //databricks artifacts secondary
-    "dblogprodseasia.blob.core.windows.net",                            //log blob
-    "prod-southeastasia-observabilityeventhubs.servicebus.windows.net", //eventhub
-    "cdnjs.com",                                                        //ganglia
-  ]
 }

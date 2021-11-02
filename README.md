@@ -47,5 +47,6 @@ With this deployment, traffic from user client to webapp (notebook UI), backend 
 
 ## Getting Started
 1. Clone this repo to your local machine.
-2. Run `terraform init` to initialize terraform.
-3. Inside the local project folder, run `terraform apply` to create the resources.
+2. Run `terraform init` to initialize terraform and get provider ready.
+3. Change `terraform.tfvars` values to your own values.
+4. Inside the local project folder, run `terraform apply` to create the resources.
