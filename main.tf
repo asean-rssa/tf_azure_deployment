@@ -29,9 +29,11 @@ data "external" "me" {
 
 locals {
   // dltp - databricks labs terraform provider
-  prefix   = "dltp${random_string.naming.result}"
-  location = "southeastasia"
+  prefix   = join("-", [var.workspace_prefix, "${random_string.naming.result}"])
+  location = var.rglocation
   cidr     = var.spokecidr
+  dbfsname = join("", [var.dbfs_prefix, "${random_string.naming.result}"]) // dbfs name must not have special chars
+
   // tags that are propagated down to all resources
   tags = {
     Environment = "Testing"
@@ -41,7 +43,7 @@ locals {
 }
 
 resource "azurerm_resource_group" "this" {
-  name     = "hwang-${local.prefix}-rg"
+  name     = "adb-dev-${local.prefix}-rg"
   location = local.location
   tags     = local.tags
 }
@@ -62,6 +64,6 @@ output "azure_region" {
   value = local.location
 }
 
-output "test_resource_group" {
+output "resource_group" {
   value = azurerm_resource_group.this.name
 }

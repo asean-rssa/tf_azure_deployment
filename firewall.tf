@@ -27,7 +27,7 @@ resource "azurerm_firewall_network_rule_collection" "adbfnetwork" {
   action              = "Allow"
 
   rule {
-    name = "databricks-webapp"
+    name = "databricks-metastore"
 
     source_addresses = [
       join(", ", azurerm_subnet.public.address_prefixes),
@@ -35,11 +35,11 @@ resource "azurerm_firewall_network_rule_collection" "adbfnetwork" {
     ]
 
     destination_ports = [
-      "443",
+      "3306",
     ]
 
     destination_addresses = [
-      "52.187.145.107/32",
+      var.metastoreip,
     ]
 
     protocols = [
@@ -64,15 +64,7 @@ resource "azurerm_firewall_application_rule_collection" "adbfqdn" {
       join(", ", azurerm_subnet.private.address_prefixes),
     ]
 
-    target_fqdns = [
-      "tunnel.southeastasia.azuredatabricks.net",                         //scc relay
-      "dbartifactsprodseap.blob.core.windows.net",                        //databricks artifacts
-      "dbartifactsprodeap.blob.core.windows.net",                         //databricks artifacts secondary
-      "dblogprodseasia.blob.core.windows.net",                            //log blob
-      "prod-southeastasia-observabilityeventhubs.servicebus.windows.net", //eventhub
-      "cdnjs.com",                                                        //ganglia
-      // how to add dbfs here? use private link to avoid putting a rule here for dbfs
-    ]
+    target_fqdns = var.firewallfqdn
 
     protocol {
       port = "443"
@@ -81,8 +73,9 @@ resource "azurerm_firewall_application_rule_collection" "adbfqdn" {
   }
 }
 
-resource "azurerm_route_table" "example" {
-  name                = "example-routetable"
+resource "azurerm_route_table" "adbroute" {
+  //route all traffic from spoke vnet to hub vnet
+  name                = "spoke-routetable"
   location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
 
@@ -90,16 +83,16 @@ resource "azurerm_route_table" "example" {
     name                   = "to-firewall"
     address_prefix         = "0.0.0.0/0"
     next_hop_type          = "VirtualAppliance"
-    next_hop_in_ip_address = azurerm_public_ip.fwpublicip.ip_address
+    next_hop_in_ip_address = azurerm_firewall.hubfw.ip_configuration.0.private_ip_address // extract single item
   }
 }
 
 resource "azurerm_subnet_route_table_association" "publicudr" {
   subnet_id      = azurerm_subnet.public.id
-  route_table_id = azurerm_route_table.example.id
+  route_table_id = azurerm_route_table.adbroute.id
 }
 
 resource "azurerm_subnet_route_table_association" "privateudr" {
   subnet_id      = azurerm_subnet.private.id
-  route_table_id = azurerm_route_table.example.id
+  route_table_id = azurerm_route_table.adbroute.id
 }
