@@ -33,6 +33,7 @@ locals {
   prefix   = join("-", [var.workspace_prefix, "${random_string.naming.result}"])
   location = var.rglocation
   cidr     = var.spokecidr
+  sqlcidr  = var.sqlvnetcidr
   dbfsname = join("", [var.dbfs_prefix, "${random_string.naming.result}"]) // dbfs name must not have special chars
 
   // tags that are propagated down to all resources
