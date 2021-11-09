@@ -5,6 +5,8 @@ This template creates:
 2. SQL database
 3. ADB workspace
 
+Test commit for new branch.
+
 Overall Architecture:
 ![alt text](../charts/adb-external-hive-metastore.png?raw=true)
 
