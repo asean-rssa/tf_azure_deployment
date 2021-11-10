@@ -5,19 +5,23 @@ This architecture will be deployed:
 
 # Get Started:
 On your local machine, inside this folder of `adb-external-hive-metastore`:
-Prepare the environment variables: terraform will automatically look for environment variables with name format TF_VAR_xxxxx.
-In our local environment, set:
 
-`export TF_VAR_db_username=yoursqlserveradminuser`
+1. Clone the `tf_azure_deployment` repository to local.
+2. Supply with your `terraform.tfvars` file to overwrite default values accordingly. See inputs section below on optional/required variables.
+3. For step 2, variables for db_username and db_password, you can also use your environment variables: terraform will automatically look for environment variables with name format TF_VAR_xxxxx.
 
-`export TF_VAR_db_password=yoursqlserveradminpassword`
+    `export TF_VAR_db_username=yoursqlserveradminuser`
 
-`terraform init`
+    `export TF_VAR_db_password=yoursqlserveradminpassword`
+4. Init terraform and apply to deploy resources:
+    
+    `terraform init`
+    
+    `terraform apply`
 
-`terraform apply`
+Step 4 automatically completes 99% steps. The last 1% step is to manually trigger the deployed job to run once.
 
-It will deploy 99% steps for you automatically. The 1% is the last step, to manually trigger a run of job to initialize schema of database.
-After the deployment, go to databricks workspace - Job - run the auto-deployed job only once; this is to initialize the database with metastore schema.
+Go to databricks workspace - Job - run the auto-deployed job only once; this is to initialize the database with metastore schema.
 
 ![alt text](../charts/manual_last_step.png?raw=true)
 
@@ -28,6 +32,8 @@ Then you can verify in a notebook:
 We can also check inside the sql db (metastore), we've successfully linked up cluster to external hive metastore and registered the table here:
 
 ![alt text](../charts/metastore_content.png?raw=true)
+
+Now you can config all other clusters to use this external metastore, using the same spark conf and env variables of cold start cluster.
 
 
 <!-- BEGIN_TF_DOCS -->
