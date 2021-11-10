@@ -39,3 +39,9 @@ variable "db_password" {
   type        = string
   sensitive   = true
 }
+
+variable "cold_start" {
+  description = "if true, will spin up a cluster to download hive jars to dbfs"
+  type        = bool
+  default     = true # set to true to use a cluster to initialize hive schema
+}
