@@ -15,39 +15,52 @@ resource "azurerm_key_vault_access_policy" "example" {
   object_id    = data.azurerm_client_config.current.object_id
   # must use lowercase letters in permission
   key_permissions = [
-    "get", "list", "update", "create", "import", "delete", "recover", "backup", "restore"
+    "get", "list", "update", "create", "import", "delete", "recover", "backup", "restore", "purge"
   ]
 
   secret_permissions = [
-    "get", "list", "delete", "recover", "backup", "restore", "set"
+    "get", "list", "delete", "recover", "backup", "restore", "set", "purge"
   ]
 }
-
 
 resource "databricks_secret_scope" "kv" {
   # akv backed
   name = "hive"
-
   keyvault_metadata {
     resource_id = azurerm_key_vault.akv1.id
     dns_name    = azurerm_key_vault.akv1.vault_uri
   }
+  depends_on = [
+    azurerm_key_vault.akv1,
+  ]
 }
 
 resource "azurerm_key_vault_secret" "hiveurl" {
   name         = "HIVE-URL"
-  value        = "test1"
+  value        = local.db_url
   key_vault_id = azurerm_key_vault.akv1.id
+  depends_on = [
+    azurerm_key_vault.akv1,
+    azurerm_key_vault_access_policy.example, # need dependency on policy or else destroy can't clean up
+  ]
 }
 
 resource "azurerm_key_vault_secret" "hiveuser" {
   name         = "HIVE-USER"
-  value        = "test2"
+  value        = local.db_username_local # use local group instead of var
   key_vault_id = azurerm_key_vault.akv1.id
+  depends_on = [
+    azurerm_key_vault.akv1,
+    azurerm_key_vault_access_policy.example,
+  ]
 }
 
 resource "azurerm_key_vault_secret" "hivepwd" {
   name         = "HIVE-PASSWORD"
-  value        = "test3"
+  value        = local.db_password_local
   key_vault_id = azurerm_key_vault.akv1.id
+  depends_on = [
+    azurerm_key_vault.akv1,
+    azurerm_key_vault_access_policy.example,
+  ]
 }

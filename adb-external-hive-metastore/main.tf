@@ -40,7 +40,10 @@ locals {
   sqlcidr  = var.sqlvnetcidr
   dbfsname = join("", [var.dbfs_prefix, "${random_string.naming.result}"]) // dbfs name must not have special chars
 
+  db_url = "jdbc:sqlserver://${azurerm_mssql_server.metastoreserver.name}.database.windows.net:1433;database=${azurerm_mssql_database.sqlmetastore.name};user=${var.db_username}@${azurerm_mssql_server.metastoreserver.name};password={${var.db_password}};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
   // tags that are propagated down to all resources
+  db_username_local = var.db_username
+  db_password_local = var.db_password
   tags = {
     Environment = "Testing"
     Owner       = lookup(data.external.me.result, "name")

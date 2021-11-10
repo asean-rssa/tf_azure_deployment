@@ -42,14 +42,15 @@ data "databricks_spark_version" "latest_lts" {
   ]
 }
 
-resource "databricks_cluster" "shared_autoscaling" {
-  cluster_name            = "Shared Autoscaling"
+resource "databricks_cluster" "coldstart" {
+  count                   = var.cold_start ? 1 : 0
+  cluster_name            = "coldstart_cluster"
   spark_version           = data.databricks_spark_version.latest_lts.id
   node_type_id            = data.databricks_node_type.smallest.id
   autotermination_minutes = 20
   autoscale {
     min_workers = 1
-    max_workers = 5
+    max_workers = 2
   }
 
   spark_conf = {
@@ -71,6 +72,10 @@ resource "databricks_cluster" "shared_autoscaling" {
     "HIVE_URL"      = "{{secrets/hive/HIVE-URL}}",
   }
   depends_on = [
-    azurerm_databricks_workspace.this
+    azurerm_databricks_workspace.this,
+    databricks_secret_scope.kv, # need this to be able to access the secrets
+    azurerm_key_vault_secret.hiveuser,
+    azurerm_key_vault_secret.hivepwd,
+    azurerm_key_vault_secret.hiveurl
   ]
 }
