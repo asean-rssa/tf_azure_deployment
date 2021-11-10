@@ -5,7 +5,8 @@ This template creates:
 2. SQL database
 3. ADB workspace
 
-Test commit for new branch.
+
+Before driver and executor JVM is ready on cluster, we specify in the Init script for cluster to download all the required jars. 
 
 Overall Architecture:
 ![alt text](../charts/adb-external-hive-metastore.png?raw=true)
