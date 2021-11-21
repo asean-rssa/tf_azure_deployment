@@ -41,7 +41,7 @@ Given 2 storage accounts:
 | -------- | ---------------- | --------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
 | No       | No               | No              | Cannot Connect to Anything                                                     | N.A.                                                               |
 | No       | Yes              | No              | to test                                                                        | to test                                                            |
-| No       | Yes              | Yes             | Granular connection to ADLS by using sep policy (assoc.w firewall subnet)      | Connected to ALLOWED ADLS, deny conncetion to DENIED ADLS          |
+| No       | Yes              | Yes             | to test                                                                        | to test                                                            |
 | Yes      | No               | No              | Can connect                                                                    | Granular control using fqdn rules; public endpoint of adls         |
 | Yes      | Yes              | No              | Connect to all ADLS; using service endpoint accessible through firewall subnet | Since no policy attached to f/w subnet, we can connect to all adls |
 | Yes      | Yes              | Yes             | Granular connection to ADLS by using sep policy (assoc.w firewall subnet)      | Connected to ALLOWED ADLS, deny conncetion to DENIED ADLS          |

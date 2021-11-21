@@ -28,10 +28,9 @@ resource "azurerm_subnet_service_endpoint_storage_policy" "allowedstoragepolicy"
   location            = azurerm_resource_group.this.location
   definition {
     name        = "allowspecificadls"
-    description = "allowadls"
+    description = "allowsingleadls"
     service_resources = [
-      azurerm_resource_group.this.id,
-      azurerm_storage_account.allowedstorage.id
+      azurerm_storage_account.allowedstorage.id // allow access to single storage account
     ]
   }
 }

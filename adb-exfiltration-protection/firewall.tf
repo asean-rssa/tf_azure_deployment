@@ -130,6 +130,7 @@ resource "azurerm_firewall_application_rule_collection" "adbfqdn" {
     }
   }
 
+  /*
   rule {
     name = "storage-accounts"
 
@@ -145,6 +146,8 @@ resource "azurerm_firewall_application_rule_collection" "adbfqdn" {
       type = "Https"
     }
   }
+  */
+
 }
 
 resource "azurerm_route_table" "adbroute" {
