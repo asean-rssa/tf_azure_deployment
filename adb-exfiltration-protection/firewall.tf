@@ -113,6 +113,22 @@ resource "azurerm_firewall_application_rule_collection" "adbfqdn" {
       type = "Https"
     }
   }
+
+  rule {
+    name = "databricks-dbfs"
+
+    source_addresses = [
+      join(", ", azurerm_subnet.public.address_prefixes),
+      join(", ", azurerm_subnet.private.address_prefixes),
+    ]
+
+    target_fqdns = ["${local.dbfsname}.blob.core.windows.net"]
+
+    protocol {
+      port = "443"
+      type = "Https"
+    }
+  }
 }
 
 resource "azurerm_route_table" "adbroute" {
