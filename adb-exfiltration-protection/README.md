@@ -27,26 +27,20 @@ With this deployment, traffic from user client to webapp (notebook UI), backend 
 
 ## Inputs
 
-| Name             | Description | Type        | Default         | Required |
-| ---------------- | ----------- | ----------- | --------------- | :------: |
-| hubcidr          | n/a         | `string`    | "10.178.0.0/20" |   yes    |
-| spokecidr        | n/a         | `string`    | "10.179.0.0/20" |   yes    |
-| no\_public\_ip   | n/a         | `bool`      | `true`          |   yes    |
-| rglocation       | n/a         | `string`    | "southeastasia" |   yes    |
-| metastoreip      | n/a         | `string`    | "40.78.233.2"   |   yes    |
-| dbfs_prefix      | n/a         | `string`    | "dbfs"          |   yes    |
-| workspace_prefix | n/a         | `string`    | "adb"           |   yes    |
-| firewallfqdn     | n/a         | list(`any`) | fqdn rules      |   yes    |
+Given 2 storage accounts: 
+1. fpdbhqallowedstorage
+2. fpdbhqdeniedstorage
 
+`Firewall: if we have FQDN rules to allow connection to ADLS.`
 
-## Outputs
+`Service Endpoint: if we have enabled service endpoint on f/w subnet.`
 
-| Name                                       | Description |
-| ------------------------------------------ | ----------- |
-| arm\_client\_id                            | n/a         |
-| arm\_subscription\_id                      | n/a         |
-| arm\_tenant\_id                            | n/a         |
-| azure\_region                              | n/a         |
-| databricks\_azure\_workspace\_resource\_id | n/a         |
-| resource\_group                            | n/a         |
-| workspace\_url                             | n/a         |
+`Policy Attached: if a sep policy will be attached to f/w subnet.`
+
+| Firewall | Service Endpoint | Policy Attached | Connection Result                                                              | Granular Outbound Control                                         |
+| -------- | ---------------- | --------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
+| No       | No               | No              | Cannot Connect to Anything                                                     | N.A. as only private endpoints bypass firewall not svp            |
+| No       | Yes              | No              | to test                                                                        | to test                                                           |
+| Yes      | No               | No              | Can connect                                                                    | Granular control using fqdn rules; public endpoint of adls        |
+| Yes      | Yes              | No              | Connect to all ADLS; using service endpoint accessible through firewall subnet | Since policy not attached to f/w subnet, we connects to both adls |
+| Yes      | Yes              | Yes             | Granular connection to ADLS by using sep policy (assoc.w firewall subnet)      | Connected to ALLOWED ADLS, deny conncetion to DENIED ADLS         |

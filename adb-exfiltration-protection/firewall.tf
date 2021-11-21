@@ -129,6 +129,22 @@ resource "azurerm_firewall_application_rule_collection" "adbfqdn" {
       type = "Https"
     }
   }
+
+  rule {
+    name = "storage-accounts"
+
+    source_addresses = [
+      join(", ", azurerm_subnet.public.address_prefixes),
+      join(", ", azurerm_subnet.private.address_prefixes),
+    ]
+
+    target_fqdns = ["${azurerm_storage_account.allowedstorage.name}.dfs.core.windows.net"]
+
+    protocol {
+      port = "443"
+      type = "Https"
+    }
+  }
 }
 
 resource "azurerm_route_table" "adbroute" {
