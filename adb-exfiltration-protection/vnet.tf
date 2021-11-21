@@ -87,10 +87,12 @@ resource "azurerm_virtual_network" "hubvnet" {
 
 resource "azurerm_subnet" "hubfw" {
   //name must be fixed as AzureFirewallSubnet
-  name                 = "AzureFirewallSubnet"
-  resource_group_name  = azurerm_resource_group.this.name
-  virtual_network_name = azurerm_virtual_network.hubvnet.name
-  address_prefixes     = [cidrsubnet(var.hubcidr, 3, 0)]
+  name                        = "AzureFirewallSubnet"
+  resource_group_name         = azurerm_resource_group.this.name
+  virtual_network_name        = azurerm_virtual_network.hubvnet.name
+  address_prefixes            = [cidrsubnet(var.hubcidr, 3, 0)]
+  service_endpoints           = ["Microsoft.Storage"]
+  service_endpoint_policy_ids = [azurerm_subnet_service_endpoint_storage_policy.allowedstoragepolicy.id]
 }
 
 
