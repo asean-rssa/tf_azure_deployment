@@ -43,7 +43,7 @@ We configured in service endpoint policy to allow access to randomallowedstorage
 `Policy Attached: if a sep policy will be attached to f/w subnet.`
 
 
-Can we use firewall and also service endpoint policy on firewall subnet together?
+## Test Results:
 
 | Firewall | Service Endpoint | Policy Attached | Connection Result                              | Granular Outbound Control                                             |
 | -------- | ---------------- | --------------- | ---------------------------------------------- | --------------------------------------------------------------------- |
