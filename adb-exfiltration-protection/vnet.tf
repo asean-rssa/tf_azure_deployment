@@ -92,7 +92,7 @@ resource "azurerm_subnet" "hubfw" {
   virtual_network_name        = azurerm_virtual_network.hubvnet.name
   address_prefixes            = [cidrsubnet(var.hubcidr, 3, 0)]
   service_endpoints           = ["Microsoft.Storage"]
-  service_endpoint_policy_ids = [azurerm_subnet_service_endpoint_storage_policy.allowedstoragepolicy.id]
+  //service_endpoint_policy_ids = [azurerm_subnet_service_endpoint_storage_policy.allowedstoragepolicy.id]
 }
 
 

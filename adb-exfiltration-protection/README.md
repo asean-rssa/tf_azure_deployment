@@ -28,6 +28,9 @@ Given 2 storage accounts:
 `Policy Attached: if a sep policy will be attached to f/w subnet.`
 
 
+Can we use firewall and also service endpoint policy on firewall subnet together?
+
+
 | Firewall | Service Endpoint | Policy Attached | Connection Result                              | Granular Outbound Control                                          |
 | -------- | ---------------- | --------------- | ---------------------------------------------- | ------------------------------------------------------------------ |
 | No       | No               | No              | Cannot Connect to any storage                  | N.A.                                                               |
