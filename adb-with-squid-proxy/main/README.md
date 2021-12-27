@@ -1,13 +1,51 @@
-# Hub-Spoke + hub firewall + Service Endpoint Policy to control egress traffic at granular level
+# ADB workspace with squid proxy
 
-Azure Databricks is an Azure Managed Service, as of 20211122, it's not possible to associate custom `service endpoint policy` on subnets that hosts Azure Managed Services. See limitations section: https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-service-endpoint-policies-overview#configuration
+Having a proxy server will:
+1. Bring in the cache layer.
+2. Access Control List - ACL to control outbound traffic destination at fine level.
+3. ACL configs are stored in textfile, easy to manage / update.
+4. Bypass internet filtering.
 
-Service endpoint policy is used for granular level access control to specific resources, for example storage accounts. 
+2 ways to configure proxy server:
+3128 default port for squid proxxy server.
+transparent proy server: proxxy behaves like default gateway, transparent to users.
 
-This template provides a workaround to achieve similar objective and deploys:
-1. Hub-Spoke networking with egress firewall to control all outbound traffic, e.g. to pypi.org.
-2. Service Endpoint connection to storage accounts.
-3. Service Endpoint Policy applied to have granular access control to specific storage accounts.
+
+`sudo apt-get update`
+`sudo vim /etc/squid/squid.conf`
+# check status of job
+`service squid status`
+
+`squid.conf` looks very long and tedious.
+Most config files are just instructions.
+
+
+sudo apt-get update
+sudo vim /etc/squid/squid.conf
+
+# check status of job
+service squid status
+
+
+acl allowed_sites dstdomain .dbartifactsprodseap.blob.core.windows.net
+acl allowed_sites dstdomain .dbartifactsprodeap.blob.core.windows.net
+acl allowed_sites dstdomain .dblogprodseasia.blob.core.windows.net
+acl allowed_sites dstdomain .prod-southeastasia-observabilityeventhubs.servicebus.windows.net
+acl allowed_sites dstdomain .cdnjs.com
+acl allowed_sites dstdomain .dbfsj89k8n.blob.core.windows.net
+
+
+`sudo service squid restart` to restart squid and make conf effective.
+
+
+
+
+https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ssh-from-windows
+First to generate ssh keypair
+`ssh-keygen -m PEM -t rsa -b 4096`
+
+
+
 
 
 Your outbound traffic from Data Plane of Databricks, will be controlled by firewall rules; in addition, you can enforce granular access control to specific storage account, using service endpoint policy attached to firewall subnet. Traffic to storage accounts will be through service endpoints.
