@@ -12,7 +12,9 @@ resource "azurerm_route_table" "adbroute" {
   }
 }
 
+/*
 resource "azurerm_subnet_route_table_association" "vmsubnetudr" {
   subnet_id      = azurerm_subnet.public.id
   route_table_id = azurerm_route_table.adbroute.id
 }
+*/

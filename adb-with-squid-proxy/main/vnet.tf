@@ -20,7 +20,9 @@ resource "azurerm_subnet" "public" {
   address_prefixes     = [cidrsubnet(local.cidr, 3, 0)]
 }
 
+/*
 resource "azurerm_subnet_network_security_group_association" "public" {
   subnet_id                 = azurerm_subnet.public.id
   network_security_group_id = azurerm_network_security_group.squidnsg.id
 }
+*/

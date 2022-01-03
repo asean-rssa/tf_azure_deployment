@@ -1,4 +1,3 @@
-
 locals {
   prefix   = join("-", [var.workspace_prefix, "${random_string.naming.result}"])
   location = var.rglocation
