@@ -7,8 +7,16 @@
 Overall Architecture:
 TO-DO
 
+## Logic:
+1. prepare for cold start, create rg for image.
+2. 
+
 ## Getting Started
 1. Clone this repo to your local machine.
 2. Run `terraform init` to initialize terraform and get provider ready.
 3. Change `terraform.tfvars` values to your own values.
 4. Inside the local project folder, run `terraform apply` to create the resources.
+
+
+
+1. In folder /packer/os, run 'packer build .'

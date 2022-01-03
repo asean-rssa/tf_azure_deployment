@@ -1,4 +1,3 @@
-
 source "azure-arm" "my-example" {
   subscription_id = "${var.subscription_id}"
 

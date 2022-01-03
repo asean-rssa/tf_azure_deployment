@@ -11,7 +11,6 @@ resource "azurerm_network_interface" "example" {
   }
 }
 
-# Create (and display) an SSH key
 resource "tls_private_key" "example_ssh" {
   algorithm = "RSA"
   rsa_bits  = 4096
@@ -22,6 +21,13 @@ resource "azurerm_public_ip" "example" {
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
   allocation_method   = "Static"
+}
+
+
+# Packer creates the custom image - use this to create VM
+data "azurerm_image" "customimage" {
+   name                = var.managed_image_name
+   resource_group_name = var.managed_image_resource_group_name
 }
 
 resource "azurerm_linux_virtual_machine" "example" {
@@ -38,7 +44,7 @@ resource "azurerm_linux_virtual_machine" "example" {
   admin_ssh_key {
     username   = "azureuser"
     public_key = tls_private_key.example_ssh.public_key_openssh // using generated ssh key
-    # public_key = file("~/.ssh/id_rsa.pub") //using existing ssh key
+    # public_key = file("/home/azureuser/.ssh/authorized_keys") //using existing ssh key 
   }
 
   os_disk {
@@ -46,7 +52,8 @@ resource "azurerm_linux_virtual_machine" "example" {
     storage_account_type = "Standard_LRS"
   }
 
-  source_image_id = "/subscriptions/3f2e4d32-8e8d-46d6-82bc-5bb8d962328b/resourceGroups/hwang-adb-kr/providers/Microsoft.Compute/images/hwangnonansibleimage"
+  # use custom image to build vm
+  source_image_id = data.azurerm_image.customimage.id
 
   provisioner "local-exec" {
     # running on local machine that executes terraform apply, this is triggered only for the first apply (ssh key will be static)
