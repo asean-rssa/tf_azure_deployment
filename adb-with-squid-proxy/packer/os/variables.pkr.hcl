@@ -11,5 +11,5 @@ variable "managed_img_rg_name" {
 
 variable "managed_img_name" {
   type = string
-  default = "hwangtestpackerimg2"
+  default = "hwangnonansibleimage"
 }

@@ -1,3 +1,4 @@
+
 source "azure-arm" "my-example" {
   subscription_id = "${var.subscription_id}"
 
@@ -20,6 +21,7 @@ source "azure-arm" "my-example" {
 
 build {
   sources = ["sources.azure-arm.my-example"]
+
   provisioner "shell" {
     execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo {{ .Path }}"
     script          = "../scripts/setup.sh"

@@ -7,7 +7,7 @@ variable "vnetcidr" {
   default = "10.178.0.0/20"
 }
 
-variable "location" {
+variable "loc" {
     type    = string
     default = "southeastasia"
 }
