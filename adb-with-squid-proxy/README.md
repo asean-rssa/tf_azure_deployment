@@ -7,16 +7,17 @@
 Overall Architecture:
 TO-DO
 
-## Logic:
-1. prepare for cold start, create rg for image.
-2. 
+## Excution Steps:
+1. Redirect to `/packer/tf_coldstart`, run:
+   1. `terraform init`
+   2. `terraform apply`
+At this step 1, you will get a new rg and a local file in /packer/os.
 
-## Getting Started
-1. Clone this repo to your local machine.
-2. Run `terraform init` to initialize terraform and get provider ready.
-3. Change `terraform.tfvars` values to your own values.
-4. Inside the local project folder, run `terraform apply` to create the resources.
+2. Redirect to `/packer/os`, run:
+   1. `packer build .`
+At this step 2, packer will read the auto-generated `*auto.pkrvars.hcl` file and build the image.
 
-
-
-1. In folder /packer/os, run 'packer build .'
+3. Redirect to `/main`, run:
+   1. `terraform init`
+   2. `terraform apply`
+At this step 3, in main terraform folder you will create all the resources for squid proxy.
