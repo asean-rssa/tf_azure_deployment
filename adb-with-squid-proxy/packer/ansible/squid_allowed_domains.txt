@@ -1,3 +1,0 @@
-.google.com
-.amazon.com
-.yahoo.com

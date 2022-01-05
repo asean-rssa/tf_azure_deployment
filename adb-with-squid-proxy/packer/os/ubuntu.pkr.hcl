@@ -25,10 +25,4 @@ build {
     execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo {{ .Path }}"
     script          = "../scripts/setup.sh"
   }
-
-  provisioner "ansible" {
-    execute_command = "chmod +x {{ .Path }}; {{ .Vars }} sudo {{ .Path }}"
-    script          = "../scripts/setup.sh"
-  }
-
 }
