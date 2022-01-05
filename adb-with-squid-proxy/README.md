@@ -4,8 +4,8 @@
 3. Deploy necessary networking infra.
 4. Deploy Azure Databricks Workspace with all outbound traffic going through squid proxy, as such, we can achieve granular ACL control for outbound destinations.
 
-Overall Architecture:
-TO-DO
+## Overall Architecture:
+![alt text](../charts/adb-squid-proxy.png?raw=true)
 
 ## Excution Steps:
 Step 1, you will create a new rg and a local file in `/packer/os`.
@@ -24,3 +24,7 @@ Step 3, in main terraform folder you will create all the resources for squid pro
 3. Redirect to `/main`, run:
    1. `terraform init`
    2. `terraform apply`
+
+Now in folder of `/main`, you can find the auto-generated private key for ssh, to ssh into the provisioned vm, run:
+`ssh -i ./ssh_private.pem azureuser@52.230.84.169`
+Change to your vm's public ip accordingly.

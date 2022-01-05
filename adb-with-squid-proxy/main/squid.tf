@@ -26,8 +26,8 @@ resource "azurerm_public_ip" "example" {
 
 # Packer creates the custom image - use this to create VM
 data "azurerm_image" "customimage" {
-   name                = var.managed_image_name
-   resource_group_name = var.managed_image_resource_group_name
+  name                = var.managed_image_name
+  resource_group_name = var.managed_image_resource_group_name
 }
 
 resource "azurerm_linux_virtual_machine" "example" {
@@ -54,10 +54,13 @@ resource "azurerm_linux_virtual_machine" "example" {
 
   # use custom image to build vm
   source_image_id = data.azurerm_image.customimage.id
+}
 
+resource "null_resource" "test_null" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
   provisioner "local-exec" {
-    # running on local machine that executes terraform apply, this is triggered only for the first apply (ssh key will be static)
-    # use EOT for multiple commands run in local machine
     command = <<-EOT
       terraform output -raw tls_private_key > ssh_private.pem
       chmod 400 ssh_private.pem

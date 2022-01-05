@@ -16,10 +16,10 @@ variable "workspace_prefix" {
 # the 2 vars below must be the same to packer config
 variable "managed_image_name" {
   type    = string
-  default = "hwangnonansibleimage"
+  default = "coldstart-5fhmdn-image"
 }
 
 variable "managed_image_resource_group_name" {
   type    = string
-  default = "hwang-adb-kr"
+  default = "coldstart-5fhmdn-rg"
 }
