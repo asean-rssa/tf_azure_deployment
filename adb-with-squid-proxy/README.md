@@ -7,6 +7,11 @@
 ## Overall Architecture:
 ![alt text](../charts/adb-squid-proxy.png?raw=true)
 
+Narratives: Databricks workspace 1 is deployed into a VNet, which is peered to another VNet hosting a single Squid proxy server, every databricks spark cluster will be configured using init script to direct traffic to this Squid server. We control ACL in squid.conf, such that we can allow/deny traffic to certain outbound destinations. 
+
+Does this apply to azure services as well (that goes through azure backbone network)
+
+
 ## Excution Steps:
 Step 1, you will create a new rg and a local file in `/packer/os`.
 

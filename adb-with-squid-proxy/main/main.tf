@@ -5,6 +5,9 @@ provider "azurerm" {
 provider "random" {
 }
 
+provider "local" {
+}
+
 resource "random_string" "naming" {
   special = false
   upper   = false
@@ -19,7 +22,7 @@ data "external" "me" {
 }
 
 resource "azurerm_resource_group" "this" {
-  name     = "adb-squid-${local.prefix}-rg"
+  name     = "${local.prefix}-rg"
   location = local.location
   tags     = local.tags
 }

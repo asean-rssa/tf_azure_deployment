@@ -1,7 +1,8 @@
 locals {
-  prefix   = join("-", [var.workspace_prefix, "${random_string.naming.result}"])
-  location = var.rglocation
-  cidr     = var.vnetcidr
+  prefix    = join("-", [var.workspace_prefix, "${random_string.naming.result}"])
+  location  = var.rglocation
+  squidcidr = var.vnetcidr
+  dbcidr    = var.dbvnetcidr
   // tags that are propagated down to all resources
   tags = {
     Environment = "Testing"
