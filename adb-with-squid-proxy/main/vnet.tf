@@ -75,6 +75,22 @@ resource "azurerm_subnet" "squid-public-subnet" {
   address_prefixes     = [cidrsubnet(local.squidcidr, 3, 0)]
 }
 
+
+# peering
+resource "azurerm_virtual_network_peering" "squid2db" {
+  name                      = "squid2db"
+  resource_group_name       = azurerm_resource_group.this.name
+  virtual_network_name      = azurerm_virtual_network.squidvnet.name
+  remote_virtual_network_id = azurerm_virtual_network.dbvnet.id
+}
+
+resource "azurerm_virtual_network_peering" "db2squid" {
+  name                      = "db2squid"
+  resource_group_name       = azurerm_resource_group.this.name
+  virtual_network_name      = azurerm_virtual_network.dbvnet.name
+  remote_virtual_network_id = azurerm_virtual_network.squidvnet.id
+}
+
 resource "azurerm_network_security_group" "squidnsg" {
   name                = "${local.prefix}-nsg"
   location            = azurerm_resource_group.this.location
@@ -104,7 +120,7 @@ resource "azurerm_network_security_rule" "http_squid" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "3128"
-  source_address_prefix       = azurerm_virtual_network.squidvnet.address_space.0
+  source_address_prefix       = azurerm_virtual_network.dbvnet.address_space.0 //from db clusters
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.this.name
   network_security_group_name = azurerm_network_security_group.squidnsg.name
@@ -118,7 +134,7 @@ resource "azurerm_network_security_rule" "https_squid" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "3130"
-  source_address_prefix       = azurerm_virtual_network.squidvnet.address_space.0
+  source_address_prefix       = azurerm_virtual_network.dbvnet.address_space.0 //from db clusters
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.this.name
   network_security_group_name = azurerm_network_security_group.squidnsg.name

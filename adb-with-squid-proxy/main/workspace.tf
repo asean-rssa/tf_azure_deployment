@@ -4,7 +4,7 @@ resource "azurerm_databricks_workspace" "this" {
   location            = azurerm_resource_group.this.location
   sku                 = "premium"
   tags                = local.tags
-  //infrastructure_encryption_enabled = true
+
   custom_parameters {
     no_public_ip                                         = true
     virtual_network_id                                   = azurerm_virtual_network.dbvnet.id
@@ -16,7 +16,8 @@ resource "azurerm_databricks_workspace" "this" {
   # We need this, otherwise destroy doesn't cleanup things correctly
   depends_on = [
     azurerm_subnet_network_security_group_association.public,
-    azurerm_subnet_network_security_group_association.private
+    azurerm_subnet_network_security_group_association.private,
+    azurerm_linux_virtual_machine.example // make sure workspace is after squid ready and configured
   ]
 }
 
