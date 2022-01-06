@@ -56,6 +56,5 @@ chmod 644 /var/log/squid/cache.log
 
 iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 3130
 # start squid
-service squid restart
 systemctl enable squid
 systemctl restart squid
