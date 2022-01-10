@@ -12,7 +12,7 @@ echo "export no_proxy=$no_proxy" >> /databricks/spark/conf/spark-env.sh
 echo "export HTTP_PROXY=$proxy" >> /databricks/spark/conf/spark-env.sh
 echo "export HTTPS_PROXY=$proxy" >> /databricks/spark/conf/spark-env.sh
 echo "export NO_PROXY=$no_proxy" >> /databricks/spark/conf/spark-env.sh
-echo "export _JAVA_OPTIONS=\"-Dhttps.proxyHost=${proxy_host} -Dhttps.proxyPort=${proxy_port} -Dhttp.proxyHost=${proxy_host} -Dhttp.proxyPort=${proxy_port} -Dhttp.nonProxyHosts=${java_no_proxy}\"" >> /databricks/spark/conf/spark-env.sh
+echo "export _JAVA_OPTIONS=\\"-Dhttps.proxyHost=${proxy_host} -Dhttps.proxyPort=${proxy_port} -Dhttp.proxyHost=${proxy_host} -Dhttp.proxyPort=${proxy_port} -Dhttp.nonProxyHosts=${java_no_proxy}\\"" >> /databricks/spark/conf/spark-env.sh
   
 echo "http_proxy=$proxy" >> /etc/environment
 echo "https_proxy=$proxy" >> /etc/environment
