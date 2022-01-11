@@ -63,3 +63,11 @@ Now all your clusters that spins up using this init script, will route spark/non
 ![alt text](../charts/http_proxy.png?raw=true)
 
 Traffic to storage accounts will also be allowed / blocked by the proxy. These rules are to be set in `/packer/scripts/setproxy.sh` script.
+
+## Conclusion
+
+We used a single instance of squid proxy server to control granular outbound traffic from Databricks clusters. You can use cluster proxy to enforce the init script, such that all clusters will abide to the init script config and go through the proxy.
+
+## Future Work
+
+To expand to VMSS from current 1 vm setup, with load balancer. For now this project achieves the purpose of granular outbound traffic control, without using a firewall. 
