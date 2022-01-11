@@ -25,6 +25,12 @@ resource "azurerm_databricks_workspace" "this" {
   ]
 }
 
+# create tf managed notebook for convenience, user just need to run the notebook to create the cluster init script
+resource "databricks_notebook" "cluster_setup_notebook" {
+  source = "${path.module}/artifacts/proxy_setup.scala"
+  path   = "/Shared/setup_proxy"
+}
+
 output "databricks_azure_workspace_resource_id" {
   // The ID of the Databricks Workspace in the Azure management plane.
   value = azurerm_databricks_workspace.this.id

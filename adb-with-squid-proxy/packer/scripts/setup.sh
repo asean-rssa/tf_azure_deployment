@@ -35,11 +35,16 @@ cat >/etc/squid/proxy-block-list.acl <<EOF
 .twitter.com
 EOF
 
-# write into a new file, of custom setup
+# write into a new file, of custom setup, commented out examples are for adls
 cat >squid.conf <<EOF
 acl localnet src 10.179.0.0/20 # databricks vnet cidr, use your dbvnet cidr from ../../main/variables.tf
 acl banned_urls dstdomain "/etc/squid/proxy-block-list.acl"
 acl allow_urls dstdomain "/etc/squid/proxy-allow-list.acl"
+
+#acl adls dstdom_regex .*\.dfs.core.windows\.net
+#acl adls_specific dstdom_regex specificstorage.dfs.core.windows.net
+#http_access allow adls
+#http_access allow adls_specific
 
 http_access allow localhost
 http_access allow allow_urls

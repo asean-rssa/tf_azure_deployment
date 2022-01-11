@@ -9,5 +9,5 @@ variable "resource_group_name" {
 
 
 variable "locationtest" {
-  description = "eastasia"
+  description = "region of storage account"
 }

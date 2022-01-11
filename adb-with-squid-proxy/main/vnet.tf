@@ -106,7 +106,7 @@ resource "azurerm_network_security_rule" "ssh" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "22"
-  source_address_prefix       = "165.225.113.59" // my client laptop ip, temporary rule
+  source_address_prefix       = "*" //temporary rule for testing, allow any ip to connect; you can change to your client ip
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.this.name
   network_security_group_name = azurerm_network_security_group.squidnsg.name

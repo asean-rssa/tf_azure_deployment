@@ -1,4 +1,4 @@
-# Objective of `adb-with-squid-proxy`:
+# Objective
 1. Use packer to create azure image that functions as a squid proxy.
 2. Use terraform to create vm / vmss, as squid proxy instance(s).
 3. Deploy necessary networking infra.
