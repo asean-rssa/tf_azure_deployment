@@ -7,7 +7,7 @@ sccip            = "52.230.27.216"
 webappip         = "52.187.145.107/32"
 dbfs_prefix      = "dbfs"
 workspace_prefix = "adb"
-firewallfqdn = [                                                      // we don't need scc relay and dbfs fqdn since they will go to private endpoint
+firewallfqdn = [                                                      // dbfs rule will be added - depends on dbfs storage name
   "dbartifactsprodseap.blob.core.windows.net",                        //databricks artifacts
   "dbartifactsprodeap.blob.core.windows.net",                         //databricks artifacts secondary
   "dblogprodseasia.blob.core.windows.net",                            //log blob
