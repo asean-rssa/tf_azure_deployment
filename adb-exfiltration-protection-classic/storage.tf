@@ -20,17 +20,3 @@ resource "azurerm_storage_account" "deniedstorage" {
   is_hns_enabled           = true
   tags                     = local.tags
 }
-
-
-resource "azurerm_subnet_service_endpoint_storage_policy" "allowedstoragepolicy" {
-  name                = "allow-specific-storage"
-  resource_group_name = azurerm_resource_group.this.name
-  location            = azurerm_resource_group.this.location
-  definition {
-    name        = "allowspecificadls"
-    description = "allowsingleadls"
-    service_resources = [
-      azurerm_storage_account.allowedstorage.id, // allow access to single storage account
-    ]
-  }
-}
