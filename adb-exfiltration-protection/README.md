@@ -1,18 +1,11 @@
-# Hub-Spoke + hub firewall + Service Endpoint Policy to control egress traffic at granular level
+# Azure Databricks with Data Exfiltration Protection Setup
 
-Azure Databricks is an Azure Managed Service, as of 20211122, it's not possible to associate custom `service endpoint policy` on subnets that hosts Azure Managed Services. See limitations section: https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-service-endpoint-policies-overview#configuration
 
-Service endpoint policy is used for granular level access control to specific resources, for example storage accounts. 
+This template provides an example deployment as described in: https://databricks.com/blog/2020/03/27/data-exfiltration-protection-with-azure-databricks.html
 
-This template provides a workaround to achieve similar objective and deploys:
 1. Hub-Spoke networking with egress firewall to control all outbound traffic, e.g. to pypi.org.
-2. Service Endpoint connection to storage accounts.
-3. Service Endpoint Policy applied to have granular access control to specific storage accounts.
+2. Databricks subnets traffic are routed using UDR to the firewall, which sits in the peered hub VNet.
 
-
-Your outbound traffic from Data Plane of Databricks, will be controlled by firewall rules; in addition, you can enforce granular access control to specific storage account, using service endpoint policy attached to firewall subnet. Traffic to storage accounts will be through service endpoints.
-
-You need to add storage accounts into firewall FQDN rules. Then to associate a service endpoint policy to firewall subnet to allow granular egress control.
 
 Resources to be created:
 * Resource group with random prefix
