@@ -27,10 +27,10 @@ variable "db_password" {
 # the 2 vars below must be the same to packer config, hardcoded for now
 variable "managed_image_name" {
   type    = string
-  default = "coldstart-yfm1v0-image"
+  default = "coldstart-gibujk-image"
 }
 
 variable "managed_image_resource_group_name" {
   type    = string
-  default = "coldstart-yfm1v0-rg"
+  default = "coldstart-gibujk-rg"
 }

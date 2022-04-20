@@ -16,11 +16,10 @@ tar -xvf trino-server-377.tar.gz
 
 # create directory to hold server configs
 export trino_server_dir="/home/azureuser/trino-server-377"
-if [ -d $trino_server_dir/etc ]
-then
+if [ -d $trino_server_dir/etc ]; then
     echo "Directory already exists"
 else
-    mkdir $directory_name
+    mkdir -p $trino_server_dir
 fi
 
 # create config files for trino server
@@ -47,7 +46,6 @@ cat >$trino_server_dir/etc/jvm.config <<EOF
 -Djdk.nio.maxCachedBufferSize=2000000
 EOF
 
-
 cat >$trino_server_dir/etc/config.properties <<EOF
 coordinator=true
 node-scheduler.include-coordinator=true
@@ -61,7 +59,7 @@ cat >$trino_server_dir/etc/log.properties <<EOF
 io.trino=INFO
 EOF
 
-mkdir $trino_server_dir/etc/catalog
+mkdir -p $trino_server_dir/etc/catalog
 wget -N https://repo1.maven.org/maven2/io/trino/trino-cli/377/trino-cli-377-executable.jar
 
 mv trino-cli-377-executable.jar trino
@@ -69,7 +67,7 @@ chmod +x trino
 
 cat >$trino_server_dir/etc/catalog/delta.properties <<EOF
 connector.name=delta-lake
-hive.metastore.uri=thrift://hn0-hdi.cb2p0n3k13iernbkm2wxgtv3uh.zqzx.internal.chinacloudapp.cn:9083,thrift://hn1-hdi.cb2p0n3k13iernbkm2wxgtv3uh.zqzx.internal.chinacloudapp.cn:9083
+hive.metastore.uri=thrift://hn0-hdi.cb2p0n3k13iernbkm2wxgtv3uh.zqzx.internal.chinacloudapp.cn:9083
 hive.azure.abfs-storage-account=025e90a0a55897c0
 hive.azure.abfs-access-key=Q1+rXtTp3uoxowzdlZWoQycyqikqDWVFNNb+82O2IG8Ta2fOt77yzVkcHHyScongL1fYotpxgOEiN9Aw54wYmQ==
 EOF
