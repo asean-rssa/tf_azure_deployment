@@ -9,7 +9,7 @@
 Credits to Max (Wenjun.Zhou@microsoft.com) for creating the original solution and setting up trino-delta connector and Bowei (Bowei.Feng@microsoft.com) for efforts in overall solutioning.
 
 ## Overall Architecture:
-![alt text](../charts/trino-delta-connector.png?raw=true)
+![alt text](../charts/trino-delta-connector.png?raw=false)
 
 Narratives: Databricks workspace 1 is deployed into a VNet, which is peered to another VNet hosting a single Squid proxy server, every databricks spark cluster will be configured using init script to direct traffic to this Squid server. We control ACL in squid.conf, such that we can allow/deny traffic to certain outbound destinations.
 
