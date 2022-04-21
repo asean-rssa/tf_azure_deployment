@@ -64,5 +64,5 @@ cat >$trino_server_dir/catalog/delta.properties <<EOF
 connector.name=delta-lake
 hive.metastore.uri=thrift://hn0-hdi.cb2p0n3k13iernbkm2wxgtv3uh.zqzx.internal.chinacloudapp.cn:9083
 hive.azure.abfs-storage-account=025e90a0a55897c0
-hive.azure.abfs-access-key=Q1+rXtTp3uoxowzdlZWoQycyqikqDWVFNNb+82O2IG8Ta2fOt77yzVkcHHyScongL1fYotpxgOEiN9Aw54wYmQ==
+hive.azure.abfs-access-key=youradlsaccesskey
 EOF
