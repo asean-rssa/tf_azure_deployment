@@ -37,9 +37,10 @@ resource "azurerm_mssql_server_extended_auditing_policy" "mssqlpolicy" {
   retention_in_days                       = 6
 }
 
-resource "azurerm_mssql_virtual_network_rule" "sqlservervnetrule" {
-  // associate sql server to a subnet
-  name      = "sql-server-vnet-rule"
-  server_id = azurerm_mssql_server.metastoreserver.id
-  subnet_id = azurerm_subnet.sqlsubnet.id
+
+resource "azurerm_mssql_firewall_rule" "allow_azure_services" {
+  name             = "allow-all-azure-services"
+  server_id        = azurerm_mssql_server.metastoreserver.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "0.0.0.0"
 }

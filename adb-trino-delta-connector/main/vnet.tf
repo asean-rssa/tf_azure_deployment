@@ -59,22 +59,12 @@ resource "azurerm_subnet_network_security_group_association" "private" {
   network_security_group_id = azurerm_network_security_group.dbnsg.id
 }
 
-
 resource "azurerm_subnet" "trino-subnet" {
   name                 = "${local.prefix}-trino-subnet"
   resource_group_name  = azurerm_resource_group.this.name
   virtual_network_name = azurerm_virtual_network.dbvnet.name
   address_prefixes     = [cidrsubnet(local.dbcidr, 4, 2)]
 }
-
-resource "azurerm_subnet" "sqlsubnet" {
-  name                 = "sql-server-subnet"
-  resource_group_name  = azurerm_resource_group.this.name
-  virtual_network_name = azurerm_virtual_network.dbvnet.name
-  address_prefixes     = [cidrsubnet(local.dbcidr, 4, 3)]
-  service_endpoints    = ["Microsoft.Sql"]
-}
-
 
 resource "azurerm_network_security_group" "trinonsg" {
   name                = "${local.prefix}-nsg"

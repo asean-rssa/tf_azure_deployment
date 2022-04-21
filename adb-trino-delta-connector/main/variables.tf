@@ -24,6 +24,12 @@ variable "db_password" {
   sensitive   = true
 }
 
+variable "cold_start" {
+  description = "if true, will spin up a cluster to download hive jars to dbfs"
+  type        = bool
+  default     = true # set to true to use a cluster to initialize hive schema
+}
+
 # the 2 vars below must be the same to packer config, hardcoded for now
 variable "managed_image_name" {
   type    = string

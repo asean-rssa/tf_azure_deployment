@@ -9,7 +9,7 @@
 Credits to Max (Wenjun.Zhou@microsoft.com) for creating the original solution and setting up trino-delta connector and Bowei (Bowei.Feng@microsoft.com) for efforts in overall solutioning.
 
 ## Overall Architecture:
-<img src="../charts/trino-delta-connector.png" width="400">
+<img src="../charts/trino-delta-connector.png" width="600">
 
 Narratives: Databricks workspace is deployed into a VNet, the VNet has 4 subnets: 2 for databricks, 1 for sql server (external metastore), 1 for Trino vm. We use Databricks to create external tables and put data on ADLS, and configure Trino to use delta connector to read delta tables.
 
