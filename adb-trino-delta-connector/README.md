@@ -2,7 +2,7 @@
 1. Use packer to create azure image that have pre-installed Trino (previously prestosql) and configured to connect to Delta tables on ADLS Gen2, delta tables are created from Azure Databricks.
 2. Use terraform to create vm as Trino vm instance, for testing and POC purposes, we only use 1 vm for Trino.
 3. Deploy Azure Databricks Workspace and one notebook to create delta table on ADLS for Trino to query.
-4. You need to use External Hive Metastore for your databricks cluster.
+4. You need to use External Hive Metastore for your databricks cluster, and need to find a way to expose hive thrift service, one way to do is using HDI cluster, HDI - Azure Databricks sharing external hive metastore and you will have a thrift uri to be used in Trino server. At this stage, you have most of the major components ready and Trino configured, the only extra service required is an exposed hive service to Trino.
 
 ## Credits
 
@@ -38,18 +38,15 @@ Redirect to `/main`, run:
    2. `terraform apply`
 
 Now in folder of `/main`, you can find the auto-generated private key for ssh, to ssh into the provisioned vm, run:
-`ssh -i ./ssh_private.pem azureuser@52.230.84.169`, change to the public ip of the trino vm accordingly. Check the nsg rules of the trino vm, we have inbound rule 300 allowing any source for ssh, this is for testing purpose only! Once you ssh into trino vm, vi /etc/squid/squid.conf and you will find similar content like:
-
-The content was auto inserted by packer in step 2.
+`ssh -i ./ssh_private.pem azureuser@52.230.84.169`, change to the public ip of the trino vm accordingly. Check the nsg rules of the trino vm, we have inbound rule 300 allowing any source for ssh, this is for testing purpose only! 
 
 ### Step 4:
 
-Open your databricks workspace, you will find a notebook been created in `Shared/` folder, this is the notebook to create a managed table but data stored on ADLS.
-A small vanilla cluster has been created to run this notebook and create dummy database and table.
+Open your databricks workspace, you will find a notebook been created in `Shared/` folder, this is the notebook to create delta tables with data stored on ADLS.
 
-## Conclusion
+## Next steps (on hold for this folder)
 
-We used a single instance of squid proxy server to control granular outbound traffic from Databricks clusters. You can use cluster proxy to enforce the init script, such that all clusters will abide to the init script config and go through the proxy.
+Typically you should have hive service, and metastore uri starting with thrift://... to be used in Trino server delta.properties. We are not putting more details further due to time constraint. This can be prepared and completed at a future time with actual requests for POC etc.
 
 ## FAQ:
 
