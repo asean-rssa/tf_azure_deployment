@@ -8,3 +8,4 @@ Azure Databricks deployment patterns:
 3. `adb-private-links`, Azure Databricks workspace with multiple private links and firewall: Data Plane - Control Plane PL, Data Plane - DBFS PL.
 4. `adb-with-squid-proxy`, Azure Databricks workspace, with squid proxy to filter outbound traffic, decoupling data exfiltration costs from data volume.
 5. `adb-service-endpoint-policy-experiment`, an experimental setup with service endpoint policy, this setup is just for reference and trial using SEP. Granular egress outbound control through SEP is not directly supported.
+6. `adb-trino-delta-connector`, a POC setup to show Trino-Delta Connector. 
