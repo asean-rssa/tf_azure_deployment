@@ -25,12 +25,6 @@ resource "azurerm_databricks_workspace" "this" {
   ]
 }
 
-# create tf managed notebook for convenience in testing
-resource "databricks_notebook" "cluster_setup_notebook" {
-  source = "${path.module}/artifacts/create_table.scala"
-  path   = "/Shared/create_table"
-}
-
 resource "databricks_global_init_script" "metastoreinit" {
   source = "./artifacts/external_metastore_init.sh"
   name   = "basic init script to enforce on every cluster in workspace that uses external metastore"
