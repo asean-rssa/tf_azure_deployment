@@ -1,5 +1,6 @@
 # ADB workspace with external hive metastore
 
+Credits to alexey.ott@databricks.com and bhavin.kukadia@databricks.com for notebook logic for database initialization steps.
 This architecture will be deployed:
 ![alt text](../charts/adb-external-hive-metastore.png?raw=true)
 
