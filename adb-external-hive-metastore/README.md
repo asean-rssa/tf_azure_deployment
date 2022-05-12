@@ -2,7 +2,7 @@
 
 Credits to alexey.ott@databricks.com and bhavin.kukadia@databricks.com for notebook logic for database initialization steps.
 This architecture will be deployed:
-![alt text](../charts/adb-external-hive-metastore.png?raw=true)
+<img src="../charts/adb-external-hive-metastore.png" width="600">
 
 # Get Started:
 On your local machine, inside this folder of `adb-external-hive-metastore`:
