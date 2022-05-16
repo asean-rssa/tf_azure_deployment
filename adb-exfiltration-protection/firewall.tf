@@ -49,27 +49,6 @@ resource "azurerm_firewall_network_rule_collection" "adbfnetwork" {
   }
 
   rule {
-    name = "databricks-scc"
-
-    source_addresses = [
-      join(", ", azurerm_subnet.public.address_prefixes),
-      join(", ", azurerm_subnet.private.address_prefixes),
-    ]
-
-    destination_ports = [
-      "443",
-    ]
-
-    destination_addresses = [
-      var.sccip,
-    ]
-
-    protocols = [
-      "TCP",
-    ]
-  }
-
-  rule {
     name = "databricks-webapp"
 
     source_addresses = [
@@ -160,6 +139,13 @@ resource "azurerm_route_table" "adbroute" {
     next_hop_type          = "VirtualAppliance"
     next_hop_in_ip_address = azurerm_firewall.hubfw.ip_configuration.0.private_ip_address // extract single item
   }
+
+  route {
+    name           = "to-scc"
+    address_prefix = var.sccip
+    next_hop_type  = "Internet" // since scc is azure service IP, traffic will remain in azure backbone, not Internet
+  }
+
 }
 
 resource "azurerm_subnet_route_table_association" "publicudr" {
