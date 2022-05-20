@@ -2,6 +2,7 @@
 
 Credits to alexey.ott@databricks.com and bhavin.kukadia@databricks.com for notebook logic for database initialization steps.
 This architecture will be deployed:
+
 <img src="../charts/adb-external-hive-metastore.png" width="600">
 
 # Get Started:
