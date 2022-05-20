@@ -8,7 +8,8 @@ With this setup, you can setup firewall rules to block / allow egress traffic fr
 To find IP and FQDN for your deployment, go to: https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/udr
 
 ## Overall Architecture
-![alt text](../charts/adb-exfiltration-classic.png?raw=true)
+
+<img src="../charts/adb-exfiltration-classic.png" width="600">
 
 Resources to be created:
 * Resource group with random prefix
