@@ -5,8 +5,9 @@ resource "azurerm_databricks_workspace" "example" {
   sku                 = "premium"
   tags                = local.tags
   custom_parameters {
-    no_public_ip         = var.no_public_ip
-    storage_account_name = local.dbfsname
+    no_public_ip             = var.no_public_ip
+    storage_account_name     = local.dbfsname
+    storage_account_sku_name = "Standard_LRS"
   }
 }
 
