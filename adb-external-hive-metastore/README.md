@@ -40,7 +40,9 @@ Now you can config all other clusters to use this external metastore, using the 
 
 ### Notes: Migrate from your existing managed metastore to external metastore
 
+Refer to tutorial: https://kb.databricks.com/metastore/create-table-ddl-for-metastore.html
 
+```python
 dbs = spark.catalog.listDatabases()
 for db in dbs:
     f = open("your_file_name_{}.ddl".format(db.name), "w")
@@ -50,7 +52,7 @@ for db in dbs:
         f.write(DDL.first()[0])
         f.write("\n")
     f.close()
-    
+```
 
 
 <!-- BEGIN_TF_DOCS -->
