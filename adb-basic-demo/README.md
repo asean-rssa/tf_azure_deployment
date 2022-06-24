@@ -1,1 +1,0 @@
-### This is a simple demo of Azure Databricks workspace deployment
