@@ -1,3 +1,3 @@
-### Module: autoscaling_cluster
+### Brief example of tf modules
 
-This is a mini module for autoscaling cluster.
+A mini example to show modules in tf.

@@ -44,6 +44,7 @@ data "databricks_spark_version" "latest_lts" {
   long_term_support = true
 }
 
+
 module "auto_scaling_cluster_example" {
   source                  = "./modules/autoscaling_cluster"
   spark_version           = data.databricks_spark_version.latest_lts.id
