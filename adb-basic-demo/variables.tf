@@ -17,3 +17,8 @@ variable "workspace_prefix" {
   type    = string
   default = "adb"
 }
+
+variable "global_auto_termination_minute" {
+  type    = number
+  default = 30
+}
