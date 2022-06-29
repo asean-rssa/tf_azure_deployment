@@ -26,15 +26,28 @@ What you can do using this integration app? (Quoted from source repo)
 5. Pull events, alerts data from Splunk into Databricks.
 
 ## Getting started
+### Step 1:
 
-Step 1: Clone this repo to your local, and make sure you have installed Terraform on your machine. See https://learn.hashicorp.com/tutorials/terraform/install-cli on how to install terraform on your machine.
+Clone this repo to your local, and make sure you have installed Terraform on your machine. See https://learn.hashicorp.com/tutorials/terraform/install-cli on how to install terraform on your machine.
 
-Step 2: Navigate to this folder `/adb-splunk`, run `terraform init` and `terraform apply` then type yes when prompted. This will deploy the infra to your Azure subscription, specifically it deploys a resource group, a vnet with 3 subnets inside, a databricks workspace, a vm, and a storage account.
+### Step 2:
 
-Step 3: There will be an output id address, use that to replace the ip in http://20.212.33.56:8000, then login using default username and password:
+Navigate to this folder `/adb-splunk`, run `terraform init` and `terraform apply` then type yes when prompted. This will deploy the infra to your Azure subscription, specifically it deploys a resource group, a vnet with 3 subnets inside, a databricks workspace, a vm, and a storage account.
+
+### Step 3:
+
+There will be an output id address, use that to replace the public ip in http://20.212.33.56:8000, then login using default username and password:
 `admin` and `password`, this brings you to the Splunk VM landing page.
 
-Step 4: Log into Splunk vm UI, follow the instructuions to interact with Databricks clusters from within Splunk.
+### Step 4:
+
+Logged into Splunk vm UI, then go to Databricks connector, follow the instructuions to interact with Databricks clusters from within Splunk.
+
+<img src="../charts/splunk-config.png" width="600">
+
+### Step 5:
+
+(Clean up resources) To remove all resources, run `terraform destroy`.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
