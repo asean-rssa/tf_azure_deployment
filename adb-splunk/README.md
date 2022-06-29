@@ -2,6 +2,10 @@
 
 This is an automated tf template to deploy Databricks workspace and a VM hosting Splunk, and integrate them.
 
+Overall Architecture:
+![alt text](../charts/splunk.png?raw=true)
+
+
 `Context`:
 
 Source from repo:
