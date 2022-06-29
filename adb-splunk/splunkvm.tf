@@ -57,7 +57,33 @@ resource "azurerm_linux_virtual_machine" "example" {
     sku       = "20_04-lts-gen2"
     version   = "latest"
   }
+
+  depends_on = [
+    local_file.private_key,
+    module.adls_content
+  ]
 }
+
+resource "azurerm_virtual_machine_extension" "splunksetupagent" {
+  name                 = "hwangagent"
+  virtual_machine_id   = azurerm_linux_virtual_machine.example.id
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.1"
+
+  settings = <<SETTINGS
+  {
+    "fileUris": ["${module.adls_content.file_url}"],
+    "commandToExecute": "sh splunk_setup.sh"
+  }
+  SETTINGS
+
+  depends_on = [
+    azurerm_linux_virtual_machine.example,
+    module.adls_content
+  ]
+}
+
 
 /* 
 resource "null_resource" "test_null" {

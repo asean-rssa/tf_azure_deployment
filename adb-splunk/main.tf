@@ -38,3 +38,10 @@ resource "azurerm_resource_group" "this" {
   location = local.location
   tags     = local.tags
 }
+
+module "adls_content" {
+  source                   = "./modules/adls_content"
+  rg                       = azurerm_resource_group.this.name
+  storage_account_location = var.rglocation
+  local_file_path          = "${path.root}/splunk_setup.sh" // local file to be uploaded to adls
+}
