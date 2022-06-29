@@ -1,8 +1,10 @@
 # Splunk-Databricks integration pattern and quick setup
 
-This is an automated tf template to deploy Databricks workspace and a VM hosting Splunk, and integrate them.
+This is an automated tf template to deploy Databricks workspace and a VM hosting Splunk, and integrate them. 
+This is a collaborative work with jerrold.law@databricks.com, with effort to automate the setup process.
 
-Overall Architecture:
+### Overall Architecture:
+
 <img src="../charts/splunk.png" width="600">
 
 
@@ -27,10 +29,7 @@ What you can do using this integration app?
 
 Step 1: Clone this repo to your local, `git clone xxx`. Make sure you have installed Terraform on your machine.
 
-Step 2: Navigate to this folder `/adb-splunk`, 
+Step 2: Navigate to this folder `/adb-splunk`, run `terraform init` and `terraform apply` then yes. This will deploy the infra to your Azure subscription.
 
-
-Go to http://20.212.33.56:8000, replace the IP address with your Splunk instance's public IP address, you can find this IP address either from Azure Portal or from your terraform output.
-
-on macOS
-find ./ -type f -exec sed -i '' -e 's/file2/splunk_setup_file/' {} \;
+Step 3: There will be an output id address, use that to replace the ip in http://20.212.33.56:8000, then login using default username and password:
+`admin` and `password`, this brings you to the Splunk VM landing page. 
