@@ -3,5 +3,5 @@ output "storage_name" {
 }
 
 output "container_name" {
-  value = azurerm_storage_container.container1.name
+  value = azurerm_storage_container.example_container.name
 }

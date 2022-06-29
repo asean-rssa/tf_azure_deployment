@@ -33,7 +33,7 @@ resource "azurerm_storage_account" "personaldropbox" {
   account_replication_type = "LRS"
 }
 
-resource "azurerm_storage_container" "container1" {
+resource "azurerm_storage_container" "example_container" {
   name                  = "cnt1"
   storage_account_name  = azurerm_storage_account.personaldropbox.name
   container_access_type = "container" // for anonymous read container from public
