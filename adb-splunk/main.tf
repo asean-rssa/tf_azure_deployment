@@ -39,9 +39,51 @@ resource "azurerm_resource_group" "this" {
   tags     = local.tags
 }
 
+// step 1 create storage account and container
 module "adls_content" {
   source                   = "./modules/adls_content"
   rg                       = azurerm_resource_group.this.name
   storage_account_location = var.rglocation
-  local_file_path          = "${path.root}/splunk_setup.sh" // local file to be uploaded to adls
+}
+
+// step 2 create local file of scripts
+resource "local_file" "setupscript" {
+  content         = <<EOT
+  #! /bin/bash
+  sudo apt update
+  sudo apt install docker.io -y
+  sudo apt install docker-compose -y
+  sudo docker run -d -p 8000:8000 -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_PASSWORD=password" -e "SPLUNK_APPS_URL=https://${module.adls_content.storage_name}.blob.core.windows.net/${module.adls_content.container_name}/databricks-add-on-for-splunk_110.tgz" --name splunk splunk/splunk:latest
+  EOT
+  filename        = "splunk_setup.sh"
+  file_permission = "0777" // default value 0777
+
+  depends_on = [
+    module.adls_content
+  ]
+}
+
+// step 3 upload scripts and artifacts onto container
+resource "azurerm_storage_blob" "file1" {
+  name                   = "splunk_setup.sh"
+  storage_account_name   = module.adls_content.storage_name
+  storage_container_name = module.adls_content.container_name
+  type                   = "Block"
+  source                 = "${path.root}/splunk_setup.sh"
+
+  depends_on = [
+    local_file.setupscript
+  ]
+}
+
+resource "azurerm_storage_blob" "splunk_databricks_app_file" {
+  name                   = "databricks-add-on-for-splunk_110.tgz"
+  storage_account_name   = module.adls_content.storage_name
+  storage_container_name = module.adls_content.container_name
+  type                   = "Block"
+  source                 = "${path.root}/artifacts/databricks-add-on-for-splunk_110.tgz"
+
+  depends_on = [
+    local_file.setupscript
+  ]
 }

@@ -60,7 +60,10 @@ resource "azurerm_linux_virtual_machine" "example" {
 
   depends_on = [
     local_file.private_key,
-    module.adls_content
+    local_file.setupscript,
+    module.adls_content,
+    azurerm_storage_blob.file1,
+    azurerm_storage_blob.splunk_databricks_app_file
   ]
 }
 
@@ -73,31 +76,14 @@ resource "azurerm_virtual_machine_extension" "splunksetupagent" {
 
   settings = <<SETTINGS
   {
-    "fileUris": ["${module.adls_content.file_url}"],
-    "commandToExecute": "sh splunk_setup.sh"
+    "fileUris": ["https://${module.adls_content.storage_name}.blob.core.windows.net/${module.adls_content.container_name}/splunk_setup.sh"],
+    "commandToExecute": "sudo sh splunk_setup.sh"
   }
   SETTINGS
 
   depends_on = [
     azurerm_linux_virtual_machine.example,
-    module.adls_content
+    azurerm_storage_blob.file1,
+    azurerm_storage_blob.splunk_databricks_app_file
   ]
 }
-
-
-/* 
-resource "null_resource" "test_null" {
-  triggers = {
-    always_run = "${timestamp()}"
-  }
-  provisioner "local-exec" {
-    command = <<-EOT
-      terraform output -raw tls_private_key > ssh_private.pem
-      chmod 400 ssh_private.pem
-      EOT
-  }
-  depends_on = [
-    tls_private_key.splunk_ssh,
-  ]
-}
- */

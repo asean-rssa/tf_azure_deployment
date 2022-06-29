@@ -1,3 +1,7 @@
-output "file_url" {
-  value = azurerm_storage_blob.file1.url
+output "storage_name" {
+  value = azurerm_storage_account.personaldropbox.name
+}
+
+output "container_name" {
+  value = azurerm_storage_container.container1.name
 }

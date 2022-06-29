@@ -21,7 +21,3 @@ output "azure_region" {
 output "resource_group" {
   value = azurerm_resource_group.this.name
 }
-
-output "file_url" {
-  value = module.adls_content.file_url
-}

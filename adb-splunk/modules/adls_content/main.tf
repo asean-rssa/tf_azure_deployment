@@ -38,11 +38,3 @@ resource "azurerm_storage_container" "container1" {
   storage_account_name  = azurerm_storage_account.personaldropbox.name
   container_access_type = "container" // for anonymous read container from public
 }
-
-resource "azurerm_storage_blob" "file1" {
-  name                   = "splunk_setup.sh"
-  storage_account_name   = azurerm_storage_account.personaldropbox.name
-  storage_container_name = azurerm_storage_container.container1.name
-  type                   = "Block"
-  source                 = var.local_file_path
-}
