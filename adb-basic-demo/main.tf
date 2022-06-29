@@ -6,18 +6,10 @@ terraform {
       version = ">=3.0.0"
     }
     databricks = {
-      source  = "databrickslabs/databricks"
+      source  = "databricks/databricks"
       version = ">=0.5.1"
     }
   }
-}
-
-# Configure the Microsoft Azure Provider
-provider "azurerm" {
-  features {}
-}
-
-provider "random" {
 }
 
 resource "random_string" "naming" {
@@ -42,4 +34,20 @@ locals {
     Environment = "Testing"
     Epoch       = random_string.naming.result
   }
+}
+
+data "databricks_node_type" "smallest" {
+  local_disk = true
+}
+
+data "databricks_spark_version" "latest_lts" {
+  long_term_support = true
+}
+
+
+module "auto_scaling_cluster_example" {
+  source                  = "./modules/autoscaling_cluster"
+  spark_version           = data.databricks_spark_version.latest_lts.id
+  node_type_id            = data.databricks_node_type.smallest.id
+  autotermination_minutes = var.global_auto_termination_minute
 }

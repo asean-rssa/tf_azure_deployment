@@ -38,6 +38,23 @@ We can also check inside the sql db (metastore), we've successfully linked up cl
 Now you can config all other clusters to use this external metastore, using the same spark conf and env variables of cold start cluster.
 
 
+### Notes: Migrate from your existing managed metastore to external metastore
+
+Refer to tutorial: https://kb.databricks.com/metastore/create-table-ddl-for-metastore.html
+
+```python
+dbs = spark.catalog.listDatabases()
+for db in dbs:
+    f = open("your_file_name_{}.ddl".format(db.name), "w")
+    tables = spark.catalog.listTables(db.name)
+    for t in tables:
+        DDL = spark.sql("SHOW CREATE TABLE {}.{}".format(db.name, t.name))
+        f.write(DDL.first()[0])
+        f.write("\n")
+    f.close()
+```
+
+
 <!-- BEGIN_TF_DOCS -->
 Module creates:
 * Resource group with random prefix

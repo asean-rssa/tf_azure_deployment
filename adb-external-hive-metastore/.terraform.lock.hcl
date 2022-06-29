@@ -1,6 +1,23 @@
 # This file is maintained automatically by "terraform init".
 # Manual edits may be lost in future updates.
 
+provider "registry.terraform.io/databricks/databricks" {
+  version     = "0.5.1"
+  constraints = "0.5.1"
+  hashes = [
+    "h1:Wwi+Mcove1IZ8mzMlhrHMuXs9zykefMV5K3g3fH2GC0=",
+    "zh:1b92029c48e12c209c72e674bb8e9788f4f03238b829ab84d61536c9100bd5cf",
+    "zh:695d0931535e85c2be3230cfe3422f96f57cdbaf4af6e784b134e44d0fb00e40",
+    "zh:7af5a49003d993329e54604f46fdb70b84aa4782d256316b4f1afb9452f18265",
+    "zh:b13409228be4119a0dbca9b95452b035fad5d05eda62caacb2eb472b31bd5639",
+    "zh:c29f2b2cc136fbd8dc088b7341774ae285b15b9aa21bf2cb105bab990ff89626",
+    "zh:cfad023abb68fb390678a21d2db1efa99d86c319eb7fdc1b99423d4b352d346b",
+    "zh:d7a29cbdae2e09498cfd0c00abd4a623dac5a67606083d980cef5731aa683375",
+    "zh:e84f267dd9e4f61dc77d76c07c236a839c7c615c1976a523071bcf19aa3fcd86",
+    "zh:f463ac8265eed21806a82c7bd5c96c9b7081a9eea96d05e4de2c08bfd1ec7a71",
+  ]
+}
+
 provider "registry.terraform.io/databrickslabs/databricks" {
   version     = "0.5.1"
   constraints = "0.5.1"
