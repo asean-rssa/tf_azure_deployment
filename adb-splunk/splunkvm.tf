@@ -62,7 +62,7 @@ resource "azurerm_linux_virtual_machine" "example" {
     local_file.private_key,
     local_file.setupscript,
     module.adls_content,
-    azurerm_storage_blob.file1,
+    azurerm_storage_blob.splunk_setup_file,
     azurerm_storage_blob.splunk_databricks_app_file
   ]
 }
@@ -83,7 +83,7 @@ resource "azurerm_virtual_machine_extension" "splunksetupagent" {
 
   depends_on = [
     azurerm_linux_virtual_machine.example,
-    azurerm_storage_blob.file1,
+    azurerm_storage_blob.splunk_setup_file,
     azurerm_storage_blob.splunk_databricks_app_file
   ]
 }

@@ -39,14 +39,14 @@ resource "azurerm_resource_group" "this" {
   tags     = local.tags
 }
 
-// step 1 create storage account and container
+// step 1 create storage account and container from module
 module "adls_content" {
   source                   = "./modules/adls_content"
   rg                       = azurerm_resource_group.this.name
   storage_account_location = var.rglocation
 }
 
-// step 2 create local file of scripts
+// step 2 create local file of bootstrap scripts, explicitly depends_on adls container
 resource "local_file" "setupscript" {
   content         = <<EOT
   #! /bin/bash
@@ -63,8 +63,8 @@ resource "local_file" "setupscript" {
   ]
 }
 
-// step 3 upload scripts and artifacts onto container
-resource "azurerm_storage_blob" "file1" {
+// step 3 upload scripts and artifacts onto container, explicitly depends_on script to be generated first at local
+resource "azurerm_storage_blob" "splunk_setup_file" {
   name                   = "splunk_setup.sh"
   storage_account_name   = module.adls_content.storage_name
   storage_container_name = module.adls_content.container_name
