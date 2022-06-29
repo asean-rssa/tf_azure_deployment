@@ -32,8 +32,10 @@ Step 1: Clone this repo to your local, and make sure you have installed Terrafor
 Step 2: Navigate to this folder `/adb-splunk`, run `terraform init` and `terraform apply` then type yes when prompted. This will deploy the infra to your Azure subscription, specifically it deploys a resource group, a vnet with 3 subnets inside, a databricks workspace, a vm, and a storage account.
 
 Step 3: There will be an output id address, use that to replace the ip in http://20.212.33.56:8000, then login using default username and password:
-`admin` and `password`, this brings you to the Splunk VM landing page. 
+`admin` and `password`, this brings you to the Splunk VM landing page.
+
 Step 4: Log into Splunk vm UI, follow the instructuions to interact with Databricks clusters from within Splunk.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
