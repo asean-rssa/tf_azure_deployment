@@ -1,0 +1,16 @@
+EOF
+[Service]
+Type=simple
+ExecStart=/databricks/python3/bin/python3 -u /databricks/dp_git_proxy/dp_git_proxy.py
+StandardInput=null
+StandardOutput=file:/databricks/dp_git_proxy/daemon.log
+StandardError=file:/databricks/dp_git_proxy/daemon.log
+Restart=always
+RestartSec=1
+
+[Unit]
+Description=Git Proxy Service
+
+[Install]
+WantedBy=multi-user.target
+EOF
