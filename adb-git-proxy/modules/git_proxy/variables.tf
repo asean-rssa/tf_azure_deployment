@@ -15,3 +15,7 @@ variable "cluster_name" {
   type    = string
   default = "workspace-git-proxy-cluster"
 }
+
+variable "proxy_initscript_path" {
+  type = string
+}

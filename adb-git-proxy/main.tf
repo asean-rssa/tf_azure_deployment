@@ -35,20 +35,3 @@ locals {
     Epoch       = random_string.naming.result
   }
 }
-
-data "databricks_node_type" "smallest" {
-  local_disk = true
-}
-
-data "databricks_spark_version" "latest_lts" {
-  long_term_support = true
-}
-
-
-module "auto_scaling_cluster_example" {
-  source                  = "./modules/git_proxy"
-  cluster_name            = var.proxy_cluster_name
-  spark_version           = data.databricks_spark_version.latest_lts.id
-  node_type_id            = var.node_type
-  autotermination_minutes = var.proxy_auto_termination_minute
-}

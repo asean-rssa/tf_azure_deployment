@@ -25,4 +25,10 @@ resource "databricks_cluster" "proxy_cluster" {
   custom_tags = {
     "ResourceClass" = "SingleNode"
   }
+
+  init_scripts {
+    dbfs {
+      destination = var.proxy_initscript_path // example value "dbfs:/init-scripts/install-elk.sh"
+    }
+  }
 }
