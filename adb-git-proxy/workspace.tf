@@ -24,7 +24,7 @@ data "databricks_spark_version" "latest_lts" {
   long_term_support = true
 }
 
-module "auto_scaling_cluster_example" {
+module "git_proxy_module_instance" {
   source                  = "./modules/git_proxy"
   cluster_name            = var.proxy_cluster_name
   spark_version           = data.databricks_spark_version.latest_lts.id
@@ -34,4 +34,17 @@ module "auto_scaling_cluster_example" {
   depends_on = [
     databricks_dbfs_file.init
   ]
+}
+
+resource "databricks_notebook" "flip_feature_flag_notebook" {
+  source = "${path.module}/scripts/git_proxy_flip_feature_flag.py"
+  path   = "/Shared/git_proxy_flip_feature_flag"
+}
+
+resource "databricks_job" "this" {
+  name                = "dummy job"
+  existing_cluster_id = module.git_proxy_module_instance.cluster_id
+  notebook_task {
+    notebook_path = databricks_notebook.flip_feature_flag_notebook.path
+  }
 }

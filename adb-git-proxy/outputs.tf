@@ -11,7 +11,7 @@ output "workspace_url" {
 
 output "module_cluster_id" {
   // reference to module's outputs: value = module.module_name.output_attr_name
-  value = module.auto_scaling_cluster_example.cluster_id
+  value = module.git_proxy_module_instance.cluster_id
 }
 
 output "initscript_path" {
