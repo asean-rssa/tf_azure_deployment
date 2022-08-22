@@ -13,6 +13,11 @@ variable "dbfs_prefix" {
   default = "dbfs"
 }
 
+variable "node_type" {
+  type = string
+  default = "Standard_E8ds_v4"
+}
+
 variable "workspace_prefix" {
   type    = string
   default = "adb"
