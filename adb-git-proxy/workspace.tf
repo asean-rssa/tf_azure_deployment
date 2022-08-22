@@ -16,10 +16,6 @@ resource "databricks_dbfs_file" "init" {
   path   = "/init-scripts/dp_git_proxy_init.sh"
 }
 
-data "databricks_node_type" "smallest" {
-  local_disk = true
-}
-
 data "databricks_spark_version" "latest_lts" {
   long_term_support = true
 }
@@ -42,7 +38,7 @@ resource "databricks_notebook" "flip_feature_flag_notebook" {
 }
 
 resource "databricks_job" "this" {
-  name                = "dummy job"
+  name                = "run once git-proxy flip feature flag"
   existing_cluster_id = module.git_proxy_module_instance.cluster_id
   notebook_task {
     notebook_path = databricks_notebook.flip_feature_flag_notebook.path

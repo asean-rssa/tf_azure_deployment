@@ -19,7 +19,7 @@ resource "random_string" "naming" {
 }
 
 resource "azurerm_resource_group" "example" {
-  name     = "${random_string.naming.result}-basic-demo-rg"
+  name     = "databricks-demo-${random_string.naming.result}-rg"
   location = var.rglocation
 }
 
@@ -32,6 +32,5 @@ locals {
   // tags that are propagated down to all resources
   tags = {
     Environment = "Testing"
-    Epoch       = random_string.naming.result
   }
 }
