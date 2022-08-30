@@ -53,7 +53,7 @@ resource "local_file" "setupscript" {
   sudo apt update
   sudo apt install docker.io -y
   sudo apt install docker-compose -y
-  sudo docker run -d -p 8000:8000 -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_PASSWORD=password" -e "SPLUNK_APPS_URL=https://${module.adls_content.storage_name}.blob.core.windows.net/${module.adls_content.container_name}/databricks-add-on-for-splunk_110.tgz" --name splunk splunk/splunk:latest
+  sudo docker run -d -p 8000:8000 -p 8089:8089 -p 9997:9997 -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_PASSWORD=password" -e "SPLUNK_APPS_URL=https://${module.adls_content.storage_name}.blob.core.windows.net/${module.adls_content.container_name}/databricks-add-on-for-splunk_110.tgz" --name splunk splunk/splunk:latest
   EOT
   filename        = "splunk_setup.sh"
   file_permission = "0777" // default value 0777
