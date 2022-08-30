@@ -31,10 +31,6 @@ provider "databricks" {
   host = azurerm_databricks_workspace.this.workspace_url
 }
 
-data "databricks_node_type" "smallest" {
-  local_disk = true
-}
-
 data "databricks_spark_version" "latest_lts" {
   long_term_support = true
   depends_on = [
@@ -46,11 +42,11 @@ resource "databricks_cluster" "coldstart" {
   count                   = var.cold_start ? 1 : 0
   cluster_name            = "coldstart_cluster"
   spark_version           = data.databricks_spark_version.latest_lts.id
-  node_type_id            = data.databricks_node_type.smallest.id
-  autotermination_minutes = 20
+  node_type_id            = var.node_type
+  autotermination_minutes = 30
   autoscale {
-    min_workers = 1
-    max_workers = 2
+    min_workers = 0
+    max_workers = 1
   }
 
   spark_conf = {
