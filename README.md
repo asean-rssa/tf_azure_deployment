@@ -10,3 +10,4 @@ Azure Databricks deployment patterns:
 5. `adb-service-endpoint-policy-experiment`, an experimental setup with service endpoint policy, this setup is just for reference and trial using SEP. Granular egress outbound control through SEP is not directly supported.
 6. `adb-trino-delta-connector`, a POC setup to show Trino-Delta Connector. 
 7. `adb-splunk`, a POC setup to show Splunk-Databricks connector, referring to https://github.com/databrickslabs/splunk-integration.
+8. `adb-git-proxy`, a reference implementation for Azure Databricks to connect to onprem Git server via a proxy cluster.
