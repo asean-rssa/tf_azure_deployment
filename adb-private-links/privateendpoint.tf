@@ -30,14 +30,24 @@ resource "azurerm_private_dns_zone_virtual_network_link" "dpcpdnszonevnetlink" {
   virtual_network_id    = azurerm_virtual_network.this.id // connect to spoke vnet
 }
 
-resource "azurerm_private_dns_cname_record" "cnamerecord" { //add CNAME record to the private dns zone
-  name                = "${var.rglocation}.pl-auth"
-  zone_name           = azurerm_private_dns_zone.dnsdpcp.name
+resource "azurerm_private_endpoint" "auth" {
+  name                = "aadauthpvtendpoint"
+  location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
-  ttl                 = 60
-  record              = azurerm_databricks_workspace.this.workspace_url
-}
+  subnet_id           = azurerm_subnet.plsubnet.id //private link subnet, in databricks spoke vnet
 
+  private_service_connection {
+    name                           = "ple-${var.workspace_prefix}-auth"
+    private_connection_resource_id = azurerm_databricks_workspace.this.id
+    is_manual_connection           = false
+    subresource_names              = ["browser_authentication"]
+  }
+
+  private_dns_zone_group {
+    name                 = "private-dns-zone-auth"
+    private_dns_zone_ids = [azurerm_private_dns_zone.dnsdpcp.id]
+  }
+}
 
 //dbfs pvt endpoint
 resource "azurerm_private_endpoint" "dbfspe" {
