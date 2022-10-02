@@ -1,4 +1,4 @@
-# Azure Databricks with Private Links and Hub-Spoke Firewall structure (data exfiltration protection).
+# Azure Databricks with Private Links (incl. web-auth PE) and Hub-Spoke Firewall structure (data exfiltration protection).
 
 Include:
 1. Hub-Spoke networking with egress firewall to control all outbound traffic, e.g. to pypi.org.
