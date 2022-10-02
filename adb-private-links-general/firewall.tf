@@ -10,6 +10,8 @@ resource "azurerm_firewall" "hubfw" {
   name                = "hubfirewall"
   location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
+  sku_name            = "AZFW_VNet"
+  sku_tier            = "Standard"
 
   ip_configuration {
     name                 = "configuration"
