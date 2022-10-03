@@ -11,6 +11,47 @@ resource "azurerm_network_interface" "testvmnic" {
   }
 }
 
+resource "azurerm_network_security_group" "testvm-nsg" {
+  name                = "${local.prefix}-testvm-nsg"
+  location            = azurerm_resource_group.this.location
+  resource_group_name = azurerm_resource_group.this.name
+  tags                = local.tags
+}
+
+resource "azurerm_network_interface_security_group_association" "testvmnsgassoc" {
+  network_interface_id      = azurerm_network_interface.testvmnic.id
+  network_security_group_id = azurerm_network_security_group.testvm-nsg.id
+}
+
+data "http" "my_public_ip" { // add your host machine ip into nsg
+  url = "https://ifconfig.co/json"
+  request_headers = {
+    Accept = "application/json"
+  }
+}
+
+locals {
+  ifconfig_co_json = jsondecode(data.http.my_public_ip.body)
+}
+
+output "my_ip_addr" {
+  value = local.ifconfig_co_json.ip
+}
+
+resource "azurerm_network_security_rule" "test0" {
+  name                        = "RDP"
+  priority                    = 200
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "3389"
+  source_address_prefixes     = [local.ifconfig_co_json.ip]
+  destination_address_prefix  = "VirtualNetwork"
+  network_security_group_name = azurerm_network_security_group.testvm-nsg.name
+  resource_group_name         = azurerm_resource_group.this.name
+}
+
 // give a public ip addr to vm
 resource "azurerm_public_ip" "testvmpublicip" {
   name                = "${local.prefix}-vmpublicip"
@@ -24,7 +65,7 @@ resource "azurerm_windows_virtual_machine" "testvm" {
   name                = "${local.prefix}-test"
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
-  size                = "Standard_F2"
+  size                = "Standard_F4s_v2"
   admin_username      = "azureuser"
   admin_password      = "TesTed567!!!"
   network_interface_ids = [
@@ -37,9 +78,9 @@ resource "azurerm_windows_virtual_machine" "testvm" {
   }
 
   source_image_reference {
-    publisher = "MicrosoftWindowsServer"
-    offer     = "WindowsServer"
-    sku       = "2016-Datacenter"
+    publisher = "MicrosoftWindowsDesktop"
+    offer     = "windows-10"
+    sku       = "19h2-pro-g2"
     version   = "latest"
   }
 }
