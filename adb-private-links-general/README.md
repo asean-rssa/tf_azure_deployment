@@ -10,8 +10,6 @@ Include:
 Overall Architecture:
 ![alt text](../charts/adb-private-links-general.png?raw=true)
 
-Warning: To use this deployment, you need to obtain access to private link feature (as of 2021.11 in private preview. Contact Databricks or Microsoft team for more details.
-
 With this deployment, traffic from user client to webapp (notebook UI), backend traffic from data plane to control plane will be through private endpoints. This terraform sample will create:
 * Resource group with random prefix
 * Tags, including `Owner`, which is taken from `az account show --query user`

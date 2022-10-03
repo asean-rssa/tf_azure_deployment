@@ -5,12 +5,9 @@ Include:
 2. Private Link connection for backend traffic from data plane to control plane.
 3. Private Link connection from user client to webapp service.
 4. Private Link connection from data plane to dbfs storage.
-5. (To Be Implemented) External Hive Metastore in your own subscription, with private endpoint connection.
 
 Overall Architecture:
 ![alt text](../charts/adb-private-links.png?raw=true)
-
-Warning: To use this deployment, you need to obtain access to private link feature (as of 2021.11 in private preview. Contact Databricks or Microsoft team for more details.
 
 With this deployment, traffic from user client to webapp (notebook UI), backend traffic from data plane to control plane will be through private endpoints. This terraform sample will create:
 * Resource group with random prefix
