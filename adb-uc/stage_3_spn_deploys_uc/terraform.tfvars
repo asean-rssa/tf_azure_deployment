@@ -1,0 +1,5 @@
+databricks_resource_id = "/subscriptions/3e551f82-c624-4a3e-b8f6-e050a96a7004/resourceGroups/testrg/providers/Microsoft.Databricks/workspaces/ws1"
+client_secret          = "xxxxx"
+subscription_id        = "3e551f82-c624-4a3e-b8f6-e050a96a7004"
+client_id              = "81581960-4ffa-4efa-9045-85241f449906"
+tenant_id              = "34f1bb02-ac1d-4c04-b051-58e094fa668c"
