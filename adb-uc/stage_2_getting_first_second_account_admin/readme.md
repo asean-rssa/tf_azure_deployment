@@ -9,3 +9,12 @@ log in via SPN:
 `az login --service-principal -u <app-id> -p <password-or-cert> --tenant <tenant>`
 
 Variable long_lasting_spn_id should be the client_id of a long lasting SPN.
+
+```
+provider "databricks" { // account level endpoint
+  alias      = "azure_account"
+  host       = "https://accounts.azuredatabricks.net"
+  account_id = "f3b0d159-720f-4d2e-bdc4-18104f13f419" // Databricks will provide
+  auth_type  = "azure-cli"                            // az login with SPN
+}
+```

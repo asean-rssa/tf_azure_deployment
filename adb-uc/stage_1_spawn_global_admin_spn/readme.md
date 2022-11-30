@@ -4,12 +4,12 @@ In Stage 1, we use `az login` authentication with a **user principal** to `azure
 
 Stage 1 deployment steps:
 
-On your local machine, run the following commands:
+On your local machine, run the following commands to log in with your user principal interactively:
 ```bash
 az login
 ```
 
-or use an existing SPN that's able to grant other SPNs AAD Global Admin role.
+or az login with an existing SPN that's able to grant other SPNs AAD Global Admin role, you can log in as a service principal like below:
 ```bash
 az login --service-principal -u <app-id> -p <password-or-cert> --tenant <tenant>
 ```

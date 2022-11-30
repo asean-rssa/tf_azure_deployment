@@ -1,3 +1,6 @@
+variable "long_lasting_spn_id" {
+}
+
 resource "databricks_group" "this" {
   provider     = databricks.azure_account
   display_name = "test_tf_sp"
