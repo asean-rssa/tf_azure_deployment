@@ -24,7 +24,8 @@ provider "databricks" {
 Supply your Databricks workspace Resource ID to the variable `databricks_resource_id`.
 
 In this stage 3 folder, run
-```
+
+```bash
 terraform init & terraform apply
 ```
 

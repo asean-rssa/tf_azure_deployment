@@ -1,15 +1,19 @@
 ### Stage 2 Make AAD Global Admin SPN to be the first Databricks account admin
 
-In this stage, we az login using SPN, and use this identity to hit the Databricks Provider Account Level endpoint to make the SPN the first account admin.
-The stage 2 terraform scripts requires the AAD global admin SPN to authenticate to Databricks provider. 
+In Stage 2, we az login using an AAD Global Admin SPN, and use this identity to hit the Databricks Provider Account Level endpoint to make it as the first account admin.
 
-Once this SPN becomes the first Databricks Account Admin, then this SPN can make other long lasting SPN as account admins, then you can remove the AAD Global Admin role.
+Once this SPN becomes the first Databricks Account Admin, then this SPN can make other SPNs as account admins, then you can remove the AAD Global Admin role from this initial SPN.
 
-log in via SPN:
+This sample script requires a variable `long_lasting_spn_id`, you should have prepared this SPN and supply its id to this variable.
+
+Stage 3 deployment steps:
+
+az login as AAD Global Admin SPN:
 `az login --service-principal -u <app-id> -p <password-or-cert> --tenant <tenant>`
 
-Variable long_lasting_spn_id should be the client_id of a long lasting SPN.
+Supply value to `long_lasting_spn_id` variable.
 
+Change `account_id` attribute inside the databricks provider:
 ```
 provider "databricks" { // account level endpoint
   alias      = "azure_account"
@@ -18,3 +22,11 @@ provider "databricks" { // account level endpoint
   auth_type  = "azure-cli"                            // az login with SPN
 }
 ```
+
+In this stage 2 folder, run:
+
+```bash
+terraform init & terraform apply
+```
+
+This completes Stage 2, now you should have a long lasting SPN with Databricks Account Admin role and it can make other identities as account admins. You can now remove the first SPN's AAD Global Admin role.
