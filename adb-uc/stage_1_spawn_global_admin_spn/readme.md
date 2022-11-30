@@ -20,6 +20,6 @@ terraform init & terraform apply
 ```
 This deploys a new SPN and grant it as AAD Global Admin. You should see under AAD - Roles - Global Admin, with the new assignment to SPN like below:
 
-<img src="../../charts/spn_tf.png" width="800">
+<img src="../../charts/spn_tf.png" width="1200">
 
 This completes Stage 1.
