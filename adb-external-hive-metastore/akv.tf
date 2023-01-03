@@ -10,21 +10,15 @@ resource "azurerm_key_vault" "akv1" {
 }
 
 resource "azurerm_key_vault_access_policy" "example" {
-  key_vault_id = azurerm_key_vault.akv1.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = data.azurerm_client_config.current.object_id
-  # must use lowercase letters in permission
-  key_permissions = [
-    "get", "list", "update", "create", "import", "delete", "recover", "backup", "restore", "purge"
-  ]
-
-  secret_permissions = [
-    "get", "list", "delete", "recover", "backup", "restore", "set", "purge"
-  ]
+  key_vault_id       = azurerm_key_vault.akv1.id
+  tenant_id          = data.azurerm_client_config.current.tenant_id
+  object_id          = data.azurerm_client_config.current.object_id
+  key_permissions    = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore"]
+  secret_permissions = ["Backup", "Delete", "Get", "List", "Purge", "Recover", "Restore", "Set"]
 }
 
 resource "databricks_secret_scope" "kv" {
-  # akv backed
+  # akv backed secret scope
   name = "hive"
   keyvault_metadata {
     resource_id = azurerm_key_vault.akv1.id

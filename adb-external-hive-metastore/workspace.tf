@@ -28,7 +28,7 @@ resource "databricks_global_init_script" "metastoreinit" {
 }
 
 provider "databricks" {
-  host = azurerm_databricks_workspace.this.workspace_url
+  host  = azurerm_databricks_workspace.this.workspace_url
 }
 
 data "databricks_spark_version" "latest_lts" {
