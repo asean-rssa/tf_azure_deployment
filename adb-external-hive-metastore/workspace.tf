@@ -28,7 +28,7 @@ resource "databricks_global_init_script" "metastoreinit" {
 }
 
 provider "databricks" {
-  host  = azurerm_databricks_workspace.this.workspace_url
+  host = azurerm_databricks_workspace.this.workspace_url
 }
 
 data "databricks_spark_version" "latest_lts" {
@@ -40,7 +40,7 @@ data "databricks_spark_version" "latest_lts" {
 
 resource "databricks_cluster" "coldstart" {
   count                   = var.cold_start ? 1 : 0
-  cluster_name            = "coldstart_cluster"
+  cluster_name            = "cluster - external metastore"
   spark_version           = data.databricks_spark_version.latest_lts.id
   node_type_id            = var.node_type
   autotermination_minutes = 30
