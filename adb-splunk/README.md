@@ -1,5 +1,3 @@
-# [Archived Repo] - This repo has been archived and the content have been migrated to https://github.com/databricks/terraform-databricks-examples
-
 # Splunk-Databricks integration pattern and quick setup
 
 This demo is a collaborative work with jerrold.law@databricks.com.

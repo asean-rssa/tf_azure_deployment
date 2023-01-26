@@ -1,3 +1,5 @@
+# [Archived Repo] - This repo has been archived and the content have been migrated to https://github.com/databricks/terraform-databricks-examples
+
 # Terraform patterns for Azure Databricks deployments
 
 Subdirectories are independent to each other, each represents a Terraform pattern of Azure Databricks workspace deployment.
